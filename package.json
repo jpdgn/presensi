@@ -59,7 +59,7 @@
       }
     },
     "start": {
-      "command": "babel-node bin/server",
+      "command": "npm run deploy && babel-node bin/server",
       "env": {
         "DEBUG": "app:*"
       }
