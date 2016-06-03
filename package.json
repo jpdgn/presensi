@@ -59,8 +59,9 @@
       }
     },
     "start": {
-      "command": "babel-node bin/server",
+      "command": "npm run clean && npm run compile && babel-node bin/server",
       "env": {
+        "NODE_ENV": "production",
         "DEBUG": "app:*"
       }
     },
