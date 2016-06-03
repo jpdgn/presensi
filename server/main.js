@@ -43,6 +43,7 @@ if (config.env === 'development') {
   // of development since this directory will be copied into ~/dist
   // when the application is compiled.
   app.use(convert(serve(paths.client('static'))))
+  app.use(convert(serve(paths.base('public/'))))
 } else {
   debug(
     'Server is being run outside of live development mode. This starter kit ' +
