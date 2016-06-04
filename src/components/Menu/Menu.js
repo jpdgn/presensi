@@ -7,21 +7,21 @@ class Menu extends React.Component {
     this.state = {collapseMaster: true, collapseProfile: true}
   }
 
-  collapseMasterData () {
-    if (this.state.collapseMaster) {
-      this.setState({collapseMaster: false})
-    } else {
-      this.setState({collapseMaster: true})
-    }
-  }
-
-  collapseProfile () {
-    if (this.state.collapseProfile) {
-      this.setState({collapseProfile: false})
-    } else {
-      this.setState({collapseProfile: true})
-    }
-  }
+  // collapseMasterData () {
+  //   if (this.state.collapseMaster) {
+  //     this.setState({collapseMaster: false})
+  //   } else {
+  //     this.setState({collapseMaster: true})
+  //   }
+  // }
+  //
+  // collapseProfile () {
+  //   if (this.state.collapseProfile) {
+  //     this.setState({collapseProfile: false})
+  //   } else {
+  //     this.setState({collapseProfile: true})
+  //   }
+  // }
   render () {
     return (
       <div className='sidebar' data-color='green'>
@@ -31,11 +31,11 @@ class Menu extends React.Component {
               <img src='/img/default-avatar.png' />
             </div>
             <div className='info'>
-              <a onClick={this.collapseProfile.bind(this)} data-toggle='collapse' className='collapsed' aria-expanded={this.state.collapseProfile}>
+              <a data-toggle='collapse' href='#collapseExample' className='collapsed' aria-expanded={this.state.collapseProfile}>
                   Jonathan Marthen
                   <b className='caret'></b>
               </a>
-              <div className={this.state.collapseProfile ? 'collapse' : 'collapse in'} id='collapseExample'>
+              <div className='collapse' id='collapseExample'>
                 <ul className='nav'>
                   <li><a href='#'>My Profile</a></li>
                   <li><a href='#'>Edit Profile</a></li>
@@ -52,15 +52,15 @@ class Menu extends React.Component {
                   </a>
               </li>
               <li>
-                  <a onClick={this.collapseMasterData.bind(this)} data-toggle='collapse' aria-expanded={this.state.collapseMaster}>
+                  <a data-toggle='collapse' href='#masterDataExamples' aria-expanded={this.state.collapseMaster}>
                       <i className='pe-7s-plugin'></i>
                       <p>Master Data
                          <b className='caret'></b>
                       </p>
                   </a>
-                  <div className={this.state.collapseMaster ? 'collapse' : 'collapse in'} id='componentsExamples'>
+                  <div className='collapse' id='masterDataExamples'>
                       <ul className='nav'>
-                          <li><Link to='/mahasiswa'>Mahasiswa</Link></li>
+                          <li className='active'><Link to='/mahasiswa'>Mahasiswa</Link></li>
                           <li><Link to='/dosen'>Dosen</Link></li>
                           <li><Link to='/mata-kuliah'>Mata Kuliah</Link></li>
                           <li><Link to='/kelas'>Kelas</Link></li>

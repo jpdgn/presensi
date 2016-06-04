@@ -129,7 +129,8 @@ export function updateRuangan (kode, ruangan) {
       method: 'put',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('auth-key')
       },
       body: JSON.stringify(ruangan)
     })

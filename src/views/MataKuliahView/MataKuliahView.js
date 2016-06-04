@@ -23,7 +23,7 @@ export class MataKuliahView extends Component {
   }
   render () {
     var row = []
-    if (this.props.data) {
+    if (this.props.data && this.props.data) {
       var listMk = this.props.data.data
       for (var i = 0; i < listMk.length; i++) {
         row.push(

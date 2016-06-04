@@ -10,6 +10,7 @@ export default class Root extends React.Component {
   };
 
   get content () {
+    var token = window.localStorage.getItem('auth-key')
     return (
       <Router history={this.props.history}>
         {this.props.routes}

@@ -23,7 +23,7 @@ export class DosenView extends Component {
     jabatan: PropTypes.object
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.dispatch(getDosen())
     this.props.dispatch(getJabatan())
   }
@@ -51,7 +51,7 @@ export class DosenView extends Component {
       }
     }
     return (
-      <div>
+      <div className='wrapper'>
         <Menu />
         <div className='main-panel'>
           <TopMenu />

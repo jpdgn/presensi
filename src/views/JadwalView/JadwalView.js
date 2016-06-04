@@ -83,25 +83,25 @@ export class JadwalView extends Component {
     var ruanganOption = []
     var mataKuliahOption = []
     var dosenOption = []
-    for (var a = 0; a < kelasData.data.length; a++) {
-      kelasOption.push(<option value={kelasData.data[a].kode}>{kelasData.data[a].kelas}</option>)
-    }
-    for (var d = 0; d < ruanganData.data.length; d++) {
-      ruanganOption.push(<option value={ruanganData.data[d].kode}>{ruanganData.data[d].ruangan}</option>)
-    }
-    for (var e = 0; e < mataKuliahData.data.length; e++) {
-      mataKuliahOption.push(<option value={mataKuliahData.data[e].kode}>{mataKuliahData.data[e].mata_kuliah}</option>)
-    }
-    for (var f = 0; f < dosenData.data.length; f++) {
-      dosenOption.push(<option value={dosenData.data[f].nip}>{dosenData.data[f].nama_dosen}</option>)
-    }
-    for (var g = 0; g < hariData.length; g++) {
-      hariOption.push(<option value={g + 1}>{hariData[g]}</option>)
-    }
     var row = []
     var days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
-    if (this.props.data) {
+    if (this.props.data && this.props.data.data && kelasData && ruanganData && mataKuliahData && dosenData) {
       var listJadwal = this.props.data.data
+      for (var a = 0; a < kelasData.data.length; a++) {
+        kelasOption.push(<option value={kelasData.data[a].kode}>{kelasData.data[a].kelas}</option>)
+      }
+      for (var d = 0; d < ruanganData.data.length; d++) {
+        ruanganOption.push(<option value={ruanganData.data[d].kode}>{ruanganData.data[d].ruangan}</option>)
+      }
+      for (var e = 0; e < mataKuliahData.data.length; e++) {
+        mataKuliahOption.push(<option value={mataKuliahData.data[e].kode}>{mataKuliahData.data[e].mata_kuliah}</option>)
+      }
+      for (var f = 0; f < dosenData.data.length; f++) {
+        dosenOption.push(<option value={dosenData.data[f].nip}>{dosenData.data[f].nama_dosen}</option>)
+      }
+      for (var g = 0; g < hariData.length; g++) {
+        hariOption.push(<option value={g + 1}>{hariData[g]}</option>)
+      }
       if (listJadwal.length < 1) {
         row = <tr><td colSpan='8' className='center aligned'><span>Tidak ada data</span></td></tr>
       }
@@ -126,11 +126,6 @@ export class JadwalView extends Component {
       }
     }
     console.log(this.state.tipeFilter)
-    // if (this.state.tipeFilter == 'hari') {
-    //   filterOption = hariOption
-    // } else {
-    //   filterOption = <option>A</option>
-    // }
     switch (this.state.tipeFilter) {
       case 'hari':
         filterOption = hariOption

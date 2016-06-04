@@ -70,6 +70,7 @@ function authStart () {
 function authFinish (result) {
   console.log(result)
   if (result.error) {
+    window.localStorage.removeItem('auth-key')
     return {
       type: CHECK_EXPIRED,
       data: result.message
@@ -87,8 +88,8 @@ export function auth (token) {
     return fetch(API_URL + 'check', {
       method: 'post',
       headers: {
-      },
-      body: JSON.stringify(token)
+        'x-access-token': token
+      }
     })
     .then((response) => response.json())
     .then((json) => dispatch(authFinish(json)))

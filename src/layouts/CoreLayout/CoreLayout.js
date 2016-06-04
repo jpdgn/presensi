@@ -1,5 +1,12 @@
 import React, { PropTypes } from 'react'
 import '../../styles/core.scss'
+import { connect } from 'react-redux';
+
+import { login, auth } from '../../redux/modules/login'
+
+const mapStateToProps = (state) => ({
+  token: window.localStorage.getItem('auth-key')
+})
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
@@ -10,18 +17,26 @@ import '../../styles/core.scss'
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-function CoreLayout ({ children }) {
-  return (
-    <div className='page-container'>
-      <div className='view-container'>
-        {children}
+export class CoreLayout extends React.Component {
+  componentDidMount () {
+    let { dispatch, token } = this.props
+    if(token) {
+      dispatch(auth(token))
+    }
+  }
+  render () {
+    return (
+      <div className='page-container'>
+        <div className='view-container'>
+          {this.props.children}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 CoreLayout.propTypes = {
   children: PropTypes.element
 }
 
-export default CoreLayout
+export default connect (mapStateToProps)(CoreLayout)

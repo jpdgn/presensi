@@ -15,6 +15,7 @@ import DetailMahasiswaView from 'views/MahasiswaView/DetailMahasiswaView'
 import DosenView from 'views/DosenView/DosenView'
 import AddDosenView from 'views/DosenView/AddDosenView'
 import EditDosenView from 'views/DosenView/EditDosenView'
+import DetailDosenView from 'views/DosenView/DetailDosenView'
 import KelasView from 'views/KelasView/KelasView'
 import AddKelasView from 'views/KelasView/AddKelasView'
 import EditKelasView from 'views/KelasView/EditKelasView'
@@ -49,6 +50,7 @@ export default (store) => (
     <Route component={DosenView} onEnter={requireAuth} path='/dosen' />
     <Route component={AddDosenView} onEnter={requireAuth} path='/add/dosen' />
     <Route component={EditDosenView} onEnter={requireAuth} path='/dosen/:nip/edit' />
+    <Route component={DetailDosenView} onEnter={requireAuth} path='/dosen/:nip/view' />
     <Route component={KelasView} onEnter={requireAuth} path='/kelas' />
     <Route component={AddKelasView} onEnter={requireAuth} path='/add/kelas' />
     <Route component={EditKelasView} onEnter={requireAuth} path='/kelas/:id/edit' />
@@ -76,6 +78,7 @@ export default (store) => (
 )
 
 function requireAuth (nextState, replaceState) {
+  console.log('requireAuth hitted')
   const token = window.localStorage.getItem('auth-key')
   if (!token)
     replaceState({

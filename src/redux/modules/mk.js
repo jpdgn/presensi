@@ -132,7 +132,8 @@ export function updateMk (kode, mk) {
       method: 'put',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('auth-key')
       },
       body: JSON.stringify(mk)
     })

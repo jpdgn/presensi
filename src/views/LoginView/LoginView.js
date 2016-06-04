@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
-import { login } from '../../redux/modules/login'
+import { login, auth } from '../../redux/modules/login'
 
 const form = 'loginForm'
 const fields = ['username', 'password']
@@ -18,7 +18,10 @@ export class LoginView extends Component {
   }
 
   componentWillMount () {
-    if (this.props.token) {
+    let { dispatch } = this.props
+    let token = this.props.token
+    if (token) {
+      dispatch(auth(token))
       this.props.history.pushState(null, '/')
     }
   }

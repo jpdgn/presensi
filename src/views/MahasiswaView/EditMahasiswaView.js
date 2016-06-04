@@ -102,7 +102,7 @@ export class EditMahasiswaView extends Component {
     }
 
     return (
-      <div>
+      <div className='wrapper'>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
