@@ -103,7 +103,7 @@ export class JadwalView extends Component {
         hariOption.push(<option value={g + 1}>{hariData[g]}</option>)
       }
       if (listJadwal.length < 1) {
-        row = <tr><td colSpan='8' className='center aligned'><span>Tidak ada data</span></td></tr>
+        row = <tr className='no-records-found'><td colSpan='9'><span>Tidak ada data</span></td></tr>
       }
       for (var i = 0; i < listJadwal.length; i++) {
         row.push(
@@ -159,22 +159,24 @@ export class JadwalView extends Component {
                       <h4 className='title'>Jadwal</h4>
                     </div>
                     <div className='col-md-12'>
-                      <div className='form-group col-md-4'>
-                        <label>Filter</label>
-                        <select onChange={this.changeFilterOption.bind(this)} className='form-control'>
-                          <option value=''>Pilih</option>
-                          <option value='hari'>Hari</option>
-                          <option value='id_kelas'>Kelas</option>
-                          <option value='id_ruangan'>Ruangan</option>
-                          <option value='id_mk'>Mata Kuliah</option>
-                          <option value='id_dosen'>Dosen</option>
-                        </select>
-                      </div>
-                      <div className='form-group col-md-4'>
-                        <select disabled={this.state.tipeFilter === '' ? 'disabled' : ''} className={this.state.tipeFilter === '' ? 'disabled form-control' : 'form-control'} onChange={this.changeFilterValue.bind(this)}>
-                          <option value='hari'>Pilih</option>
-                          {filterOption}
-                        </select>
+                      <label>Filter</label>
+                      <div className='row'>
+                        <div className='form-group col-md-4'>
+                          <select onChange={this.changeFilterOption.bind(this)} className='form-control'>
+                            <option value=''>Pilih</option>
+                            <option value='hari'>Hari</option>
+                            <option value='id_kelas'>Kelas</option>
+                            <option value='id_ruangan'>Ruangan</option>
+                            <option value='id_mk'>Mata Kuliah</option>
+                            <option value='id_dosen'>Dosen</option>
+                          </select>
+                        </div>
+                        <div className='form-group col-md-4'>
+                          <select disabled={this.state.tipeFilter === '' ? 'disabled' : ''} className={this.state.tipeFilter === '' ? 'disabled form-control' : 'form-control'} onChange={this.changeFilterValue.bind(this)}>
+                            <option value='hari'>Pilih</option>
+                            {filterOption}
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div className='content table-responsive'>

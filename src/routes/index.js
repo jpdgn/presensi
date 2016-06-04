@@ -19,9 +19,11 @@ import DetailDosenView from 'views/DosenView/DetailDosenView'
 import KelasView from 'views/KelasView/KelasView'
 import AddKelasView from 'views/KelasView/AddKelasView'
 import EditKelasView from 'views/KelasView/EditKelasView'
+import DetailKelasView from 'views/KelasView/DetailKelasView'
 import MataKuliahView from 'views/MataKuliahView/MataKuliahView'
 import AddMataKuliahView from 'views/MataKuliahView/AddMataKuliahView'
 import EditMataKuliahView from 'views/MataKuliahView/EditMataKuliahView'
+import DetailMataKuliahView from 'views/MataKuliahView/DetailMataKuliahView'
 import RuanganView from 'views/RuanganView/RuanganView'
 import AddRuanganView from 'views/RuanganView/AddRuanganView'
 import EditRuanganView from 'views/RuanganView/EditRuanganView'
@@ -54,9 +56,11 @@ export default (store) => (
     <Route component={KelasView} onEnter={requireAuth} path='/kelas' />
     <Route component={AddKelasView} onEnter={requireAuth} path='/add/kelas' />
     <Route component={EditKelasView} onEnter={requireAuth} path='/kelas/:id/edit' />
+    <Route component={DetailKelasView} onEnter={requireAuth} path='/kelas/:id/view' />
     <Route component={MataKuliahView} onEnter={requireAuth} path='/mata-kuliah' />
     <Route component={AddMataKuliahView} onEnter={requireAuth} path='/add/mata-kuliah' />
     <Route component={EditMataKuliahView} onEnter={requireAuth} path='/mata-kuliah/:id/edit' />
+    <Route component={DetailMataKuliahView} onEnter={requireAuth} path='/mata-kuliah/:id/view' />
     <Route component={RuanganView} onEnter={requireAuth} path='/ruangan' />
     <Route component={AddRuanganView} onEnter={requireAuth} path='/add/ruangan' />
     <Route component={EditRuanganView} onEnter={requireAuth} path='/ruangan/:id/edit' />

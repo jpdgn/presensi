@@ -22,6 +22,9 @@ class Menu extends React.Component {
   //     this.setState({collapseProfile: true})
   //   }
   // }
+  componentDidMount () {
+
+  }
   render () {
     return (
       <div className='sidebar' data-color='green'>

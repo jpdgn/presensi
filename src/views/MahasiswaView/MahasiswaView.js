@@ -39,6 +39,7 @@ export class MahasiswaView extends Component {
 
   componentDidMount () {
     this.props.dispatch(getMahasiswaData())
+    jQuery(React.findDOMNode(this.refs.tooltip)).tooltip();
   }
   render () {
     const {fields: {nimOnDelete}} = this.props
@@ -56,7 +57,7 @@ export class MahasiswaView extends Component {
             <td>{listMahasiswa[i].akademik}</td>
             <td>{listMahasiswa[i].semester}</td>
             <td className='td-actions text-right'>
-              <Link rel='tooltip' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
+              <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
               <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
               <a onClick={this.delete} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></a>
             </td>

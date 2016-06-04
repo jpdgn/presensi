@@ -17,6 +17,41 @@ class Menu extends React.Component {
     }
   }
 
+  componentDidMount () {
+    console.log("hitted")
+    $(function() {
+      $('.nav-open' ).removeClass()
+      var $toggle = $('.navbar-toggle')
+      $toggle.click(function() {
+        setTimeout(function(){
+            $('.navbar-toggle').addClass('toggled');
+        }, 430)
+        var $layer = $('<div class="close-layer"></div>')
+        $layer.appendTo(".main-panel")
+
+
+        setTimeout(function(){
+            $layer.addClass('visible')
+        }, 100)
+
+        $layer.click(function() {
+            $('html').removeClass('nav-open')
+            // mobile_menu_visible = 0
+
+            $layer.removeClass('visible')
+
+             setTimeout(function(){
+                $layer.remove()
+                $toggle.removeClass('toggled')
+
+             }, 400)
+        })
+        $('html').addClass('nav-open')
+
+      })
+    })
+  }
+
   render () {
     return (
       <nav className='navbar navbar-default'>
