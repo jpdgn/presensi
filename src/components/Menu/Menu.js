@@ -27,7 +27,7 @@ class Menu extends React.Component {
   }
   render () {
     return (
-      <div className='sidebar' data-color='green'>
+      <div className='sidebar' data-color='blue'>
         <div className='sidebar-wrapper'>
           <div className='user'>
             <div className='photo'>

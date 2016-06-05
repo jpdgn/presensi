@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
+import NS from 'react-notification-system'
 
 import { getMahasiswaDataByNim, updateMahasiswa } from '../../redux/modules/mahasiswa'
 import { getKelas } from '../../redux/modules/kelas'
@@ -25,6 +26,7 @@ const mapStateToProps = (state) => ({
 })
 
 export class EditMahasiswaView extends Component {
+  _notificationSystem = null
   static propTypes = {
     data: PropTypes.object,
     dispatch: PropTypes.func,
@@ -42,6 +44,30 @@ export class EditMahasiswaView extends Component {
     this.props.dispatch(getKelas())
     this.props.dispatch(getSemester())
     this.props.dispatch(getAkademik())
+  }
+
+  componentDidMount () {
+     this._notificationSystem = this.refs.notificationSystem
+  }
+
+  componentDidUpdate () {
+    this._notificationSystem = this.refs.notificationSystem
+    let { message, onUpdate, successUpdate } = this.props
+    if(onUpdate) {
+      if(successUpdate) {
+        this._notificationSystem.addNotification({
+          message: this.props.message,
+          level: 'success',
+          position: 'bc'
+        })
+      } else {
+        this._notificationSystem.addNotification({
+          message: this.props.message,
+          level: 'error',
+          position: 'bc'
+        })
+      }
+    }
   }
 
   ubahData = () => {
@@ -100,7 +126,6 @@ export class EditMahasiswaView extends Component {
         akademikOption.push(<option value={akademikData.data[z].kode}>{akademikData.data[z].akademik}</option>)
       }
     }
-
     return (
       <div className='wrapper'>
         <Menu />
@@ -270,44 +295,15 @@ export class EditMahasiswaView extends Component {
                         </div>
                         <div className='footer text-center'>
                           <button
+                            id='asd'
                             type='submit'
                             className='btn btn-fill btn-info btn-wd'
                             onClick={this.props.handleSubmit(this.ubahData)}>Simpan</button>
                         </div>
                       </div>
                     </div>
-                    <div
-                      data-notify='container'
-                      className={'col-xs-11 col-sm-4 alert alert-info alert-with-icon animated fadeInDown' + (this.props.onUpdate ? '' : ' hide')}
-                      role='alert'
-                      data-notify-position='bottom-center'
-                      style={{display: 'inline-block',
-                        margin:' 0 auto',
-                        position: 'fixed',
-                        transition: 'all 0.5s ease-in-out',
-                        zIndex: '1031',
-                        bottom: '20',
-                        left: '0',
-                        right: '0'}}>
-                      <button
-                        type='button'
-                        aria-hidden='true'
-                        className='close'
-                        data-notify='dismiss'
-                        style={{position: 'absolute',
-                          right: '10',
-                          top: '50%',
-                          marginTop: '-13',
-                          zIndex: '1033'}}>×</button>
-                        <span data-notify='icon' className='pe-7s-gift'></span>
-                        <span data-notify='title'></span>
-                        <span data-notify='message'>
-                        <b>{this.props.successUpdate ? 'Berhasil perbarui data' : 'Gagal perbarui data'}</b></span>
-                        <a href='#'
-                          target='_blank'
-                          data-notify='url'></a>
-                        </div>
                   </div>
+                  <NS ref="notificationSystem" />
                 </div>
               </div>
             </div>

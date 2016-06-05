@@ -146,7 +146,7 @@ export class JadwalView extends Component {
         filterOption = <option>A</option>
     }
     return (
-      <div>
+      <div className='wrapper'>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
