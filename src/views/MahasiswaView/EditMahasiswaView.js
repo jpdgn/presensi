@@ -14,6 +14,22 @@ const form = 'editMahasiswaForm'
 const fields = ['nim', 'nama', 'email', 'kelas', 'noHp', 'tanggal', 'bulan',
 'tahun', 'alamatRumah', 'alamatTinggal', 'semester', 'akademik', 'kompensasi', 'deviceId', 'tahunMasuk']
 
+const validate = values => {
+  const errors = {}
+  if (!values.nim) {
+    errors.nim = 'Harus diisi'
+  } else if (values.nim.length > 10) {
+    errors.nim = 'NIM anda harus valid 10 digit'
+  }
+  if (!values.nama) {
+    errors.nama = 'Harus diisi'
+  }
+  if (!values.email) {
+    errors.email = 'Harus diisi'
+  }
+  return errors
+}
+
 const mapStateToProps = (state) => ({
   data: state.mahasiswa.data,
   isLoading: state.mahasiswa.isLoading,
@@ -141,156 +157,169 @@ export class EditMahasiswaView extends Component {
                     </div>
                     <div className='content'>
                       <div className='row' onSubmit={this.handleSubmit}>
-                        <div className='col-md-4'>
-                          <div className='form-group'>
-                            <label>NIM</label>
-                            <input
-                              {...nim}
-                              type='text'
-                              className='form-control' />
+                        <div className='col-md-12'>
+                          <div className='col-md-4'>
+                            <div className='form-group'>
+                              <label>NIM</label>
+                              <input
+                                {...nim}
+                                type='text'
+                                className={'form-control ' + (nim.touched && nim.error ? 'error' : '')} />
+                              {nim.touched && nim.error && <label className='error'>{nim.error}</label>}
+                            </div>
+                          </div>
+                          <div className='col-md-4'>
+                            <div className='form-group'>
+                              <label>nama</label>
+                              <input
+                                {...nama}
+                                type='text'
+                                className={'form-control ' + (nama.touched && nama.error ? 'error' : '')} />
+                              {nama.touched && nama.error && <label className='error'>{nama.error}</label>}
+                            </div>
+                          </div>
+                          <div className='col-md-4'>
+                            <div className='form-group'>
+                              <label>Email</label>
+                              <input
+                                {...email}
+                                type='text'
+                                className={'form-control ' + (email.touched && email.error ? 'error' : '')} />
+                                {email.touched && email.error && <label className='error'>{email.error}</label>}
+                            </div>
                           </div>
                         </div>
-                        <div className='col-md-4'>
-                          <div className='form-group'>
-                            <label>nama</label>
-                            <input
-                              {...nama}
-                              type='text'
-                              className='form-control' />
+                        <div className='col-md-12'>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Kelas</label>
+                              <select
+                                {...kelas}
+                                className='form-control'>
+                                {kelasOption}
+                              </select>
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Semester</label>
+                              <select
+                                {...semester}
+                                className='form-control'>
+                                {semesterOption}
+                              </select>
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Akademik</label>
+                              <select
+                                {...akademik}
+                                className='form-control'>
+                                {akademikOption}
+                              </select>
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Tahun Masuk</label>
+                              <input
+                                {...tahunMasuk}
+                                className='form-control' />
+                            </div>
                           </div>
                         </div>
-                        <div className='col-md-4'>
-                          <div className='form-group'>
-                            <label>Email</label>
-                            <input
-                              {...email}
-                              type='text'
-                              className='form-control' />
+                        <div className='col-md-12'>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Nomor Handphone</label>
+                              <input
+                                {...noHp}
+                                type='text'
+                                className='form-control' />
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Tanggal Lahir</label>
+                              <select
+                                {...tanggal}
+                                className='form-control'>
+                                {tanggalLahirOption}
+                              </select>
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Bulan Lahir</label>
+                              <select
+                                {...bulan}
+                                className='form-control'>
+                                <option value=''>Bulan</option>
+                                <option value='01'>Januari</option>
+                                <option value='02'>Februari</option>
+                                <option value='03'>Maret</option>
+                                <option value='04'>April</option>
+                                <option value='05'>Mei</option>
+                                <option value='06'>Juni</option>
+                                <option value='07'>Juli</option>
+                                <option value='08'>Agustus</option>
+                                <option value='09'>September</option>
+                                <option value='10'>Oktober</option>
+                                <option value='11'>November</option>
+                                <option value='12'>Desember</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className='col-md-3'>
+                            <div className='form-group'>
+                              <label>Tahun Lahir</label>
+                              <select
+                                {...tahun}
+                                className='form-control'>
+                                {tahunLahirOption}
+                              </select>
+                            </div>
                           </div>
                         </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Kelas</label>
-                            <select
-                              {...kelas}
-                              className='form-control'>
-                              {kelasOption}
-                            </select>
+                        <div className='col-md-12'>
+                          <div className='col-md-6'>
+                            <div className='form-group'>
+                              <label>Alamat Rumah</label>
+                              <input
+                                {...alamatRumah}
+                                type='text'
+                                className='form-control' />
+                            </div>
+                          </div>
+                          <div className='col-md-6'>
+                            <div className='form-group'>
+                              <label>Alamat Tinggal</label>
+                              <input
+                                {...alamatTinggal}
+                                type='text'
+                                className='form-control' />
+                            </div>
                           </div>
                         </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Semester</label>
-                            <select
-                              {...semester}
-                              className='form-control'>
-                              {semesterOption}
-                            </select>
+                        <div className='col-md-12'>
+                          <div className='col-md-6'>
+                            <div className='form-group'>
+                              <label>Device ID</label>
+                              <input
+                                {...deviceId}
+                                type='text'
+                                className='form-control' />
+                            </div>
                           </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Akademik</label>
-                            <select
-                              {...akademik}
-                              className='form-control'>
-                              {akademikOption}
-                            </select>
-                          </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Tahun Masuk</label>
-                            <input
-                              {...tahunMasuk}
-                              className='form-control' />
-                          </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Nomor Handphone</label>
-                            <input
-                              {...noHp}
-                              type='text'
-                              className='form-control' />
-                          </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Tanggal Lahir</label>
-                            <select
-                              {...tanggal}
-                              className='form-control'>
-                              {tanggalLahirOption}
-                            </select>
-                          </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Bulan Lahir</label>
-                            <select
-                              {...bulan}
-                              className='form-control'>
-                              <option value=''>Bulan</option>
-                              <option value='01'>Januari</option>
-                              <option value='02'>Februari</option>
-                              <option value='03'>Maret</option>
-                              <option value='04'>April</option>
-                              <option value='05'>Mei</option>
-                              <option value='06'>Juni</option>
-                              <option value='07'>Juli</option>
-                              <option value='08'>Agustus</option>
-                              <option value='09'>September</option>
-                              <option value='10'>Oktober</option>
-                              <option value='11'>November</option>
-                              <option value='12'>Desember</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className='col-md-3'>
-                          <div className='form-group'>
-                            <label>Tahun Lahir</label>
-                            <select
-                              {...tahun}
-                              className='form-control'>
-                              {tahunLahirOption}
-                            </select>
-                          </div>
-                        </div>
-                        <div className='col-md-6'>
-                          <div className='form-group'>
-                            <label>Alamat Rumah</label>
-                            <input
-                              {...alamatRumah}
-                              type='text'
-                              className='form-control' />
-                          </div>
-                        </div>
-                        <div className='col-md-6'>
-                          <div className='form-group'>
-                            <label>Alamat Tinggal</label>
-                            <input
-                              {...alamatTinggal}
-                              type='text'
-                              className='form-control' />
-                          </div>
-                        </div>
-                        <div className='col-md-6'>
-                          <div className='form-group'>
-                            <label>Device ID</label>
-                            <input
-                              {...deviceId}
-                              type='text'
-                              className='form-control' />
-                          </div>
-                        </div>
-                        <div className='col-md-6'>
-                          <div className='form-group'>
-                            <label>Jumlah Kompensasi</label>
-                            <input
-                              {...kompensasi}
-                              type='text'
-                              className='form-control' />
+                          <div className='col-md-6'>
+                            <div className='form-group'>
+                              <label>Jumlah Kompensasi</label>
+                              <input
+                                {...kompensasi}
+                                type='text'
+                                className='form-control' />
+                            </div>
                           </div>
                         </div>
                         <div className='footer text-center'>
@@ -316,5 +345,6 @@ export class EditMahasiswaView extends Component {
 
 export default connect(mapStateToProps)(reduxForm({
   form: form,
-  fields
+  fields,
+  validate
 })(EditMahasiswaView))

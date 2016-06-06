@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
 import { reduxForm } from 'redux-form'
+import SA from 'sweetalert-react'
+import 'sweetalert-react/node_modules/sweetalert/dist/sweetalert.css'
 
 import { getMahasiswaData } from '../../redux/modules/mahasiswa'
 
@@ -17,6 +19,12 @@ const mapStateToProps = (state) => ({
 })
 
 export class MahasiswaView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {show: false, id: ''}
+  }
+
   static propTypes = {
     data: PropTypes.object,
     dispatch: PropTypes.func,
@@ -107,7 +115,7 @@ export class MahasiswaView extends Component {
             <td className='td-actions text-right'>
               <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
               <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
-              <a onClick={this.delete} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></a>
+              <button onClick={() => this.setState({ show: true, id: i })} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></button>
             </td>
           </tr>
         )
@@ -127,7 +135,7 @@ export class MahasiswaView extends Component {
                     <div className='header'>
                       <h4 className='title'>Mahasiswa</h4>
                     </div>
-                    <div className='bootstrap-table'>
+                    <div className='content table-responsive'>
                       <div className='fixed-table-container'>
                         <div className='fixed-table-body'>
                           <table id='bootstrap-table' className='table table-hover'>
@@ -147,9 +155,14 @@ export class MahasiswaView extends Component {
                               {row}
                             </tbody>
                           </table>
-                          <button id="asd">Notify</button>
                         </div>
                       </div>
+                      <SA
+                        show={this.state.show}
+                        title="Hapus Data"
+                        text="Belum berfungsi"
+                        onConfirm={() => this.setState({ show: false })}
+                      />
                     </div>
                   </div>
                 </div>
