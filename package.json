@@ -97,6 +97,7 @@
     "debug": "^2.2.0",
     "extract-text-webpack-plugin": "^1.0.0",
     "file-loader": "^0.8.4",
+    "flash-notification-react-redux": "^1.0.5",
     "fs-extra": "^0.28.0",
     "history": "^2.0.0",
     "html-webpack-plugin": "^2.7.1",
