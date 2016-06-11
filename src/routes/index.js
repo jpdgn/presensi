@@ -27,18 +27,22 @@ import DetailMataKuliahView from 'views/MataKuliahView/DetailMataKuliahView'
 import RuanganView from 'views/RuanganView/RuanganView'
 import AddRuanganView from 'views/RuanganView/AddRuanganView'
 import EditRuanganView from 'views/RuanganView/EditRuanganView'
+import DetailRuanganView from 'views/RuanganView/DetailRuanganView'
 import ProdiView from 'views/ProdiView/ProdiView'
 import AddProdiView from 'views/ProdiView/AddProdiView'
 import EditProdiView from 'views/ProdiView/EditProdiView'
+import DetailProdiView from 'views/ProdiView/DetailProdiView'
 import JurusanView from 'views/JurusanView/JurusanView'
 import AddJurusanView from 'views/JurusanView/AddJurusanView'
 import EditJurusanView from 'views/JurusanView/EditJurusanView'
+import DetailJurusanView from 'views/JurusanView/DetailJurusanView'
 import JabatanView from 'views/JabatanView/JabatanView'
 import AddJabatanView from 'views/JabatanView/AddJabatanView'
 import EditJabatanView from 'views/JabatanView/EditJabatanView'
 import JadwalView from 'views/JadwalView/JadwalView'
 import AddJadwalView from 'views/JadwalView/AddJadwalView'
 import EditJadwalView from 'views/JadwalView/EditJadwalView'
+import DetailJadwalView from 'views/JadwalView/DetailJadwalView'
 import KehadiranView from 'views/KehadiranView/KehadiranView'
 import LoginView from 'views/LoginView/LoginView'
 
@@ -64,18 +68,22 @@ export default (store) => (
     <Route component={RuanganView} onEnter={requireAuth} path='/ruangan' />
     <Route component={AddRuanganView} onEnter={requireAuth} path='/add/ruangan' />
     <Route component={EditRuanganView} onEnter={requireAuth} path='/ruangan/:id/edit' />
+    <Route component={DetailRuanganView} onEnter={requireAuth} path='/ruangan/:id/view' />
     <Route component={ProdiView} onEnter={requireAuth} path='/prodi' />
     <Route component={AddProdiView} onEnter={requireAuth} path='/add/prodi' />
     <Route component={EditProdiView} onEnter={requireAuth} path='/prodi/:id/edit' />
+    <Route component={DetailProdiView} onEnter={requireAuth} path='/prodi/:id/view' />
     <Route component={JurusanView} onEnter={requireAuth} path='/jurusan' />
     <Route component={AddJurusanView} onEnter={requireAuth} path='/add/jurusan' />
     <Route component={EditJurusanView} onEnter={requireAuth} path='/jurusan/:id/edit' />
+    <Route component={DetailJurusanView} onEnter={requireAuth} path='/jurusan/:id/view' />
     <Route component={JabatanView} onEnter={requireAuth}path='/jabatan' />
     <Route component={AddJabatanView} onEnter={requireAuth} path='/add/jabatan' />
     <Route component={EditJabatanView} onEnter={requireAuth} path='/jabatan/:id/edit' />
     <Route component={JadwalView} onEnter={requireAuth} path='/jadwal' />
     <Route component={AddJadwalView} onEnter={requireAuth} path='/add/jadwal' />
     <Route component={EditJadwalView} onEnter={requireAuth} path='/jadwal/:id/edit' />
+    <Route component={DetailJadwalView} onEnter={requireAuth} path='/jadwal/:id/view' />
     <Route component={KehadiranView} onEnter={requireAuth} path='/kehadiran' />
     <Route component={LoginView} path='/login' />
   </Route>

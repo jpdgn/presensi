@@ -47,7 +47,7 @@ export class LoginView extends Component {
     const {fields: {username, password}} = this.props
     return (
         <div className='wrapper wrapper-full-page'>
-          <div className='full-page login-page' data-color='green'>
+          <div className='full-page login-page' data-color='blue'>
             <div className='content'>
               <div className='container'>
                 <div className='row'>

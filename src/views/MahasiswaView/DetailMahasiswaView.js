@@ -68,27 +68,27 @@ export class DetailMahasiswaView extends Component {
                           <div className='row'>
                             <div className='form-group col-md-6'>
                               <label>Nama</label>
-                              <p>{dataMahasiswa.nama_mhs}</p>
+                              <p>{!dataMahasiswa.nama_mhs || dataMahasiswa.nama_mhs=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.nama_mhs}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Email</label>
-                              <p>{dataMahasiswa.email}</p>
+                              <p>{!dataMahasiswa.email || dataMahasiswa.email=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.email}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Tanggal Lahir</label>
-                              <p>{dataMahasiswa.tanggal_lahir}</p>
+                              <p>{!dataMahasiswa.tanggal_lahir || dataMahasiswa.tanggal_lahir=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.tanggal_lahir}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Nomor Handphone</label>
-                              <p>{dataMahasiswa.no_hp}</p>
+                              <p>{!dataMahasiswa.no_hp || dataMahasiswa.no_hp=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.no_hp}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Alamat Rumah</label>
-                              <p>{dataMahasiswa.alamat_rumah}</p>
+                              <p>{!dataMahasiswa.alamat_rumah || dataMahasiswa.alamat_rumah=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.alamat_rumah}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Alamat Tinggal</label>
-                              <p>{dataMahasiswa.alamat_tinggal}</p>
+                              <p>{!dataMahasiswa.alamat_tinggal || dataMahasiswa.alamat_tinggal=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.alamat_tinggal}</p>
                             </div>
                           </div>
                         </div>
@@ -107,27 +107,27 @@ export class DetailMahasiswaView extends Component {
                           <div className='row'>
                             <div className='form-group col-md-6'>
                               <label>NIM</label>
-                              <p>{dataMahasiswa.nim}</p>
+                              <p>{!dataMahasiswa.nim || dataMahasiswa.nim=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.nim}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Kelas</label>
-                              <p>{dataMahasiswa.kelas}</p>
+                              <p>{!dataMahasiswa.kelas || dataMahasiswa.kelas=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.kelas}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Akademik</label>
-                              <p>{dataMahasiswa.akademik}</p>
+                              <p>{!dataMahasiswa.akademik || dataMahasiswa.akademik=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.akademik}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Semester</label>
-                              <p>{dataMahasiswa.semester}</p>
+                              <p>{!dataMahasiswa.semester || dataMahasiswa.semester=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.semester}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Tahun Masuk</label>
-                              <p>{dataMahasiswa.tahun_masuk}</p>
+                              <p>{!dataMahasiswa.tahun_masuk || dataMahasiswa.tahun_masuk=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.tahun_masuk}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Device ID</label>
-                              <p>{dataMahasiswa.device_id}</p>
+                              <p>{!dataMahasiswa.device_id || dataMahasiswa.device_id=='' ? <small><i>Data tidak ada</i></small> : dataMahasiswa.device_id}</p>
                             </div>
                             <div className='form-group col-md-6'>
                               <label>Jumlah Kompensasi</label>

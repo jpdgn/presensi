@@ -123,7 +123,7 @@ export class MahasiswaView extends Component {
     }
 
     return (
-      <div>
+      <div className='wrapper'>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
@@ -136,6 +136,11 @@ export class MahasiswaView extends Component {
                       <h4 className='title'>Mahasiswa</h4>
                     </div>
                     <div className='content table-responsive'>
+                      <div className='fixed-table-toolbar'>
+                        <div className='columns columns-right pull-right'>
+                          <Link to='add/mahasiswa' className='btn btn-primary btn-fill'>Tambah Data</Link>
+                        </div>
+                      </div>
                       <div className='fixed-table-container'>
                         <div className='fixed-table-body'>
                           <table id='bootstrap-table' className='table table-hover'>
@@ -160,8 +165,21 @@ export class MahasiswaView extends Component {
                       <SA
                         show={this.state.show}
                         title="Hapus Data"
-                        text="Belum berfungsi"
-                        onConfirm={() => this.setState({ show: false })}
+                        text="Apakah anda ingin menghapus data ini ?"
+                        showCancelButton
+                        confirmButtonColor='#DD6B55'
+                        confirmButtonText='Ya, Hapus data ini'
+                        cancelButtonText='Batal'
+                        onConfirm={() => {
+                            swal("Deleted!", "Berhasil", "success")
+                            //this.setState({ show: false })
+                          }
+                        }
+                        onCancel={() => {
+                            swal("Batal", "Data batal dihapus", "error")
+                            // this.setState({ show: false })
+                          }
+                        }
                       />
                     </div>
                   </div>

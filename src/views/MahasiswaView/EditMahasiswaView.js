@@ -90,7 +90,12 @@ export class EditMahasiswaView extends Component {
     var tanggal = this.props.values.tanggal
     var bulan = this.props.values.bulan
     var tahun = this.props.values.tahun
-    var tanggalLahir = tahun + '-' + bulan + '-' + tanggal
+    var tanggalLahir
+    if(!tanggal || !bulan || !tahun) {
+      tanggalLahir = ''
+    } else {
+      tanggalLahir = tahun + '-' + bulan + '-' + tanggal
+    }
     var nim = this.props.values.nim
     var mahasiswa = {
       nama_mhs: this.props.values.nama,

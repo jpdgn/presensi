@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
+import SA from 'sweetalert-react'
+import 'sweetalert-react/node_modules/sweetalert/dist/sweetalert.css'
 
 import { getJadwal } from '../../redux/modules/jadwal'
 
@@ -119,7 +121,7 @@ export class JadwalView extends Component {
             <td className='td-actions text-right'>
               <Link to={'/jadwal/' + listJadwal[i].kode + '/view'} className='btn btn-info btn-simple btn-xs'><i className='fa fa-user'></i></Link>
               <Link to={'/jadwal/' + listJadwal[i].kode + '/edit'} className='btn btn-success btn-simple btn-xs'><i className='fa fa-edit'></i></Link>
-              <a onClick={this.delete} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></a>
+              <button onClick={() => this.setState({ show: true, id: i })} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></button>
             </td>
           </tr>
         )
@@ -180,6 +182,11 @@ export class JadwalView extends Component {
                       </div>
                     </div>
                     <div className='content table-responsive'>
+                    <div className='fixed-table-toolbar'>
+                      <div className='columns columns-right pull-right'>
+                        <Link to='add/jadwal' className='btn btn-primary'>Tambah Data</Link>
+                      </div>
+                    </div>
                       <div className='fixed-table-container'>
                         <table className='table table-hover'>
                           <thead>
@@ -201,6 +208,25 @@ export class JadwalView extends Component {
                         </table>
                       </div>
                     </div>
+                    <SA
+                      show={this.state.show}
+                      title="Hapus Data"
+                      text="Apakah anda ingin menghapus data ini ?"
+                      showCancelButton
+                      confirmButtonColor='#DD6B55'
+                      confirmButtonText='Ya, Hapus data ini'
+                      cancelButtonText='Batal'
+                      onConfirm={() => {
+                          swal("Deleted!", "Berhasil", "success")
+                          //this.setState({ show: false })
+                        }
+                      }
+                      onCancel={() => {
+                          swal("Batal", "Data batal dihapus", "error")
+                          // this.setState({ show: false })
+                        }
+                      }
+                    />
                   </div>
                 </div>
               </div>

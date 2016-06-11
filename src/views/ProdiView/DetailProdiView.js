@@ -4,17 +4,17 @@ import { Link } from 'react-router'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
 import { reduxForm } from 'redux-form'
-import { getKelasById } from '../../redux/modules/kelas'
+import { getProdiById } from '../../redux/modules/prodi'
 
-const form = 'formKelas'
+const form = 'formProdi'
 const fields = ['nimOnDelete']
 
 const mapStateToProps = (state) => ({
-  data: state.kelas.data,
+  data: state.prodi.data,
   isLoading: state.mahasiswa.isLoadingData
 })
 
-export class DetailKelasView extends Component {
+export class DetailProdiView extends Component {
   static propTypes = {
     data: PropTypes.object,
     dispatch: PropTypes.func,
@@ -30,41 +30,41 @@ export class DetailKelasView extends Component {
   }
 
   componentWillMount () {
-    this.props.dispatch(getKelasById(this.props.params.id))
+    this.props.dispatch(getProdiById(this.props.params.id))
   }
   render () {
     if (this.props.data) {
-      var dataKelas = this.props.data.data[0]
+      var dataProdi = this.props.data.data[0]
     }
     return (
-      <div>
+      <div className='wrapper'>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Mahasiswa</h4>
+            <h4 className='title text-center'>Detil Program Studi</h4>
               <div className='row'>
                 <div className='col-md-6'>
                   <div className='tab-content'>
                     <div className='tab-pane active' id='description-logo'>
                       <div className='card'>
                         <div className='header'>
-                            <h4 className='title'>Detil Kelas</h4>
+                            <h4 className='title'>Detil Program Studi</h4>
                         </div>
                         <div className='content'>
                           <div className='row'>
                             <div className='form-group col-md-6'>
-                              <label>KODE KELAS</label>
-                              <p>{dataKelas.kode ? dataKelas.kode : 'Memuat data'}</p>
+                              <label>KODE PROGRAM STUDI</label>
+                              <p>{dataProdi.kode ? dataProdi.kode : 'Memuat data'}</p>
                             </div>
                             <div className='form-group col-md-6'>
-                              <label>NAMA KELAS</label>
-                              <p>{dataKelas.kelas ? dataKelas.kelas : 'Memuat data'}</p>
+                              <label>NAMA PROGRAM STUDI</label>
+                              <p>{dataProdi.prodi ? dataProdi.prodi : 'Memuat data'}</p>
                             </div>
                             <div className='form-group col-md-6'>
-                              <label>PROGRAM STUDI</label>
-                              <p>{dataKelas.prodi ? dataKelas.prodi : 'Memuat data'}</p>
+                              <label>JURUSAN</label>
+                              <p>{dataProdi.jurusan ? dataProdi.jurusan : 'Memuat data'}</p>
                             </div>
                           </div>
                         </div>
@@ -93,4 +93,4 @@ export class DetailKelasView extends Component {
 export default connect(mapStateToProps)(reduxForm({
   form: form,
   fields
-})(DetailKelasView))
+})(DetailProdiView))

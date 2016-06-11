@@ -63,30 +63,30 @@ class Menu extends React.Component {
                   </a>
                   <div className='collapse' id='masterDataExamples'>
                       <ul className='nav'>
-                          <li className='active'><Link to='/mahasiswa'>Mahasiswa</Link></li>
-                          <li><Link to='/dosen'>Dosen</Link></li>
-                          <li><Link to='/mata-kuliah'>Mata Kuliah</Link></li>
-                          <li><Link to='/kelas'>Kelas</Link></li>
-                          <li><Link to='/prodi'>Prodi</Link></li>
-                          <li><Link to='/jurusan'>Jurusan</Link></li>
-                          <li><Link to='/ruangan'>Ruangan</Link></li>
+                          <li><Link activeClassName='active' to='/mahasiswa'>Mahasiswa</Link></li>
+                          <li><Link activeClassName='active' to='/dosen'>Dosen</Link></li>
+                          <li><Link activeClassName='active' to='/mata-kuliah'>Mata Kuliah</Link></li>
+                          <li><Link activeClassName='active' to='/kelas'>Kelas</Link></li>
+                          <li><Link activeClassName='active' to='/prodi'>Prodi</Link></li>
+                          <li><Link activeClassName='active' to='/jurusan'>Jurusan</Link></li>
+                          <li><Link activeClassName='active' to='/ruangan'>Ruangan</Link></li>
                       </ul>
                   </div>
               </li>
               <li>
-                <Link to='/jadwal'>
+                <Link activeClassName='active' to='/jadwal'>
                   <i className='pe-7s-date'></i>
                   <p>Jadwal</p>
                 </Link>
               </li>
               <li>
-                <Link to='/kehadiran'>
+                <Link activeClassName='active' to='/kehadiran'>
                   <i className='pe-7s-note2'></i>
                   <p>Kehadiran</p>
                 </Link>
               </li>
               <li>
-                <Link to='/kompensasi'>
+                <Link activeClassName='active' to='/kompensasi'>
                   <i className='pe-7s-medal'></i>
                   <p>Kompensasi</p>
                 </Link>
