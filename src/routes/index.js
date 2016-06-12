@@ -45,6 +45,7 @@ import EditJadwalView from 'views/JadwalView/EditJadwalView'
 import DetailJadwalView from 'views/JadwalView/DetailJadwalView'
 import KehadiranView from 'views/KehadiranView/KehadiranView'
 import LoginView from 'views/LoginView/LoginView'
+import Logout from 'components/logout'
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>
@@ -86,14 +87,15 @@ export default (store) => (
     <Route component={DetailJadwalView} onEnter={requireAuth} path='/jadwal/:id/view' />
     <Route component={KehadiranView} onEnter={requireAuth} path='/kehadiran' />
     <Route component={LoginView} path='/login' />
+    <Route component={Logout} path='/logout' />
   </Route>
 )
 
-function requireAuth (nextState, replaceState) {
-  console.log('requireAuth hitted')
+function requireAuth (nextState, replace) {
   const token = window.localStorage.getItem('auth-key')
   if (!token)
-    replaceState({
-      nextPathname: nextState.location.pathname
-    }, '/login')
+    replace({
+      pathname: '/login',
+      state: {nextPathname: nextState.location.pathname}
+    })
 }

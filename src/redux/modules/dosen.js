@@ -10,7 +10,8 @@ export const GET_DOSEN_SUCCESS = 'GET_DOSEN_SUCCESS'
 export const GET_DOSEN_BY_NIP_START = 'GET_DOSEN_BY_NIP_START'
 export const GET_DOSEN_BY_NIP_SUCCESS = 'GET_DOSEN_BY_NIP_SUCCESS'
 export const ADD_DOSEN_START = 'ADD_DOSEN_START'
-export const ADD_DOSEN_FINISH = 'ADD_DOSEN_FINISH'
+export const ADD_DOSEN_SUCCESS = 'ADD_DOSEN_SUCCESS'
+export const ADD_DOSEN_FAILED = 'ADD_DOSEN_FAILED'
 export const UPDATE_DOSEN_START = 'UPDATE_DOSEN_START'
 export const UPDATE_DOSEN_FINISH = 'UPDATE_DOSEN_FINISH'
 
@@ -95,17 +96,16 @@ function addDosenStart () {
   }
 }
 function addDosenFinish (result) {
-  console.log(result)
-  // var splitTanggalLahir = result.data[0].tanggal_lahir.split('-')
-  // var tahun = splitTanggalLahir[0]
-  // var bulan = splitTanggalLahir[1]
-  // var tanggal = splitTanggalLahir[2]
-  return {
-    type: ADD_DOSEN_FINISH
-    // data: result.data[0],
-    // tanggal: tanggal,
-    // bulan: bulan,
-    // tahun: tahun
+  if (result.success) {
+    return {
+      type: ADD_DOSEN_SUCCESS,
+      message: result.message
+    }
+  } else {
+    return {
+      type: ADD_DOSEN_FAILED,
+      message: result.message
+    }
   }
 }
 export function addDosen (dosen) {
@@ -115,7 +115,8 @@ export function addDosen (dosen) {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('auth-key')
       },
       body: JSON.stringify(dosen)
     })
@@ -189,10 +190,15 @@ export default function dosenReducers (state = initialState, action) {
         isLoadingData: true,
         data: action.data
       })
-    case ADD_DOSEN_FINISH:
+    case ADD_DOSEN_SUCCESS:
       return Object.assign({}, state, {
         isLoadingData: false,
-        data: action.data
+        message: action.message
+      })
+    case ADD_DOSEN_FAILED:
+      return Object.assign({}, state, {
+        isLoadingData: false,
+        message: action.message
       })
     case UPDATE_DOSEN_START:
       return Object.assign({}, state, {

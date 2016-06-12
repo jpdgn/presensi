@@ -45,7 +45,7 @@ export class DetailJadwalView extends Component {
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Jadwal</h4>
+            <h4 className='title text-center'>Detail Jadwal</h4>
               <div className='row'>
                 <div className='col-md-12'>
                   <div className='tab-content'>

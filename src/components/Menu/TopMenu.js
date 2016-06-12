@@ -1,7 +1,7 @@
 import React from 'react'
-// import { Link } from 'react-router'
+import { Link } from 'react-router'
 
-class Menu extends React.Component {
+class TopMenu extends React.Component {
   constructor (props) {
     super(props)
     this.state = {openMenu: false}
@@ -51,7 +51,6 @@ class Menu extends React.Component {
       })
     })
   }
-
   render () {
     return (
       <nav className='navbar navbar-default'>
@@ -81,10 +80,10 @@ class Menu extends React.Component {
                     </a>
                   </li>
                   <li>
-                    <a href='#' className='text-danger'>
+                    <Link to='/logout' className='text-danger'>
                       <i className='pe-7s-close-circle'></i>
                         Log out
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -119,4 +118,4 @@ class Menu extends React.Component {
   }
 }
 
-export default Menu
+export default TopMenu

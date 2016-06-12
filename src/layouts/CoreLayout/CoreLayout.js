@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
 export class CoreLayout extends React.Component {
-  componentDidMount () {
+  componentDidUpdate () {
     let { dispatch, token } = this.props
     if(token) {
       dispatch(auth(token))

@@ -7,11 +7,11 @@ import { reduxForm } from 'redux-form'
 import { getKelasById } from '../../redux/modules/kelas'
 
 const form = 'formKelas'
-const fields = ['nimOnDelete']
+const fields = []
 
 const mapStateToProps = (state) => ({
   data: state.kelas.data,
-  isLoading: state.mahasiswa.isLoadingData
+  isLoading: state.kelas.isLoadingData
 })
 
 export class DetailKelasView extends Component {
@@ -19,14 +19,6 @@ export class DetailKelasView extends Component {
     data: PropTypes.object,
     dispatch: PropTypes.func,
     isLoading: PropTypes.bool
-  }
-
-  handleHapusData = (nim) => {
-    let { dispatch } = this.props
-    $('.ui.modal')
-    .modal('show')
-    console.log(nim)
-    dispatch(nimOnDelete(nim))
   }
 
   componentWillMount () {
@@ -43,14 +35,14 @@ export class DetailKelasView extends Component {
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Mahasiswa</h4>
+            <h4 className='title text-center'>Detail Kelas</h4>
               <div className='row'>
                 <div className='col-md-6'>
                   <div className='tab-content'>
                     <div className='tab-pane active' id='description-logo'>
                       <div className='card'>
                         <div className='header'>
-                            <h4 className='title'>Detil Kelas</h4>
+                            <h4 className='title'></h4>
                         </div>
                         <div className='content'>
                           <div className='row'>

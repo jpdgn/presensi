@@ -9,13 +9,13 @@ import { getDosenByNip } from '../../redux/modules/dosen'
 import { getJabatan } from '../../redux/modules/jabatan'
 
 const form = 'formMahasiswa'
-const fields = ['nimOnDelete']
+const fields = []
 
 const mapStateToProps = (state) => ({
   data: state.dosen.data,
   nip: state.dosen.nip,
   jabatan: state.jabatan.data,
-  isLoading: state.mahasiswa.isLoadingData
+  isLoading: state.dosen.isLoadingData
 })
 
 export class DetailDosenView extends Component {
@@ -24,12 +24,6 @@ export class DetailDosenView extends Component {
     dispatch: PropTypes.func,
     isLoading: PropTypes.bool,
     nip: PropTypes.string
-  }
-
-  handleHapusData = (nim) => {
-    let { dispatch } = this.props
-    console.log(nim)
-    dispatch(nimOnDelete(nim))
   }
 
   componentWillMount () {
@@ -48,7 +42,7 @@ export class DetailDosenView extends Component {
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Mahasiswa</h4>
+            <h4 className='title text-center'>Detail Dosen</h4>
               <div className='row'>
                 <div className='col-md-8'>
                   <div className='tab-content'>
@@ -94,7 +88,7 @@ export class DetailDosenView extends Component {
                     <div className='tab-pane active' id='description-logo'>
                       <div className='card'>
                         <div className='header'>
-                            <h4 className='title'>Detil Pendidikan</h4>
+                            <h4 className='title'>Detail Pendidikan</h4>
                         </div>
                         <div className='content'>
                           <div className='row'>

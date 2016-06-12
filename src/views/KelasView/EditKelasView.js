@@ -10,7 +10,19 @@ import { getProdi } from '../../redux/modules/prodi'
 
 const form = 'editKelasForm'
 const fields = ['kode', 'kelas', 'prodi']
-
+const validate = values => {
+  const errors = {}
+  if (!values.kode) {
+    errors.kode = 'Harus diisi'
+  }
+  if (!values.kelas) {
+    errors.kelas = 'Harus diisi'
+  }
+  if (!values.prodi) {
+    errors.prodi = 'Harus diisi'
+  }
+  return errors
+}
 const mapStateToProps = (state) => ({
   data: state.kelas.data,
   isLoading: state.kelas.isLoading,
@@ -34,19 +46,18 @@ export class EditKelasView extends Component {
   }
   ubahData = () => {
     let { dispatch } = this.props
+    var kode = this.props.values.kode
     var kelas = {
-      kode: this.props.values.kode,
       kelas: this.props.values.kelas,
       id_prodi: this.props.values.prodi
     }
     console.log(kelas)
-    dispatch(updateKelas(nim, kelas))
+    dispatch(updateKelas(kode, kelas))
   }
   render () {
     const {fields: {kode, kelas, prodi}} = this.props
     var prodiData = this.props.prodi
-    var prodiOption = []
-
+    var prodiOption = [<option value='' key=''>Pilih Kelas</option>]
     for (var x = 0; x < prodiData.data.length; x++) {
       prodiOption.push(<option value={prodiData.data[x].kode}>{prodiData.data[x].prodi.toUpperCase()}</option>)
     }
@@ -71,7 +82,8 @@ export class EditKelasView extends Component {
                             <input
                               {...kode}
                               type='text'
-                              className='form-control' />
+                              className={'form-control ' + (kode.touched && kode.error ? 'error' : '')} />
+                            {kode.touched && kode.error && <label className='error'>{kode.error}</label>}
                           </div>
                         </div>
                         <div className='col-md-8'>
@@ -80,17 +92,19 @@ export class EditKelasView extends Component {
                             <input
                               {...kelas}
                               type='text'
-                              className='form-control' />
+                              className={'form-control ' + (kelas.touched && kelas.error ? 'error' : '')} />
+                            {kelas.touched && kode.error && <label className='error'>{kelas.error}</label>}
                           </div>
                         </div>
                         <div className='col-md-8'>
                           <div className='form-group'>
                             <label>PROGRAM STUDI</label>
                             <select
-                              className='form-control'
-                              {...prodi}>
+                              {...prodi}
+                              className={'form-control ' + (prodi.touched && prodi.error ? 'error' : '')}>
                               {prodiOption}
                             </select>
+                            {prodi.touched && prodi.error && <label className='error'>{prodi.error}</label>}
                           </div>
                         </div>
                         <div className='col-md-8 footer text-center'>
@@ -145,5 +159,6 @@ export class EditKelasView extends Component {
 
 export default connect(mapStateToProps)(reduxForm({
   form: form,
-  fields
+  fields,
+  validate
 })(EditKelasView))

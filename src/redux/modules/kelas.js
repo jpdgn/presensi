@@ -11,8 +11,10 @@ export const GET_KELAS_BY_ID_START = 'GET_KELAS_BY_ID_START'
 export const GET_KELAS_BY_ID_SUCCESS = 'GET_KELAS_BY_ID_SUCCESS'
 export const ADD_KELAS_START = 'ADD_KELAS_START'
 export const ADD_KELAS_SUCCESS = 'ADD_KELAS_SUCCESS'
+export const ADD_KELAS_FAILED = 'ADD_KELAS_FAILED'
 export const UPDATE_KELAS_START = 'UPDATE_KELAS_START'
 export const UPDATE_KELAS_SUCCESS = 'UPDATE_KELAS_SUCCESS'
+export const UPDATE_KELAS_FAILED = 'UPDATE_KELAS_FAILED'
 
 // ------------------------------------
 // Actions
@@ -84,9 +86,16 @@ function addKelasStart () {
   }
 }
 function addKelasFinish (result) {
-  return {
-    type: ADD_KELAS_SUCCESS,
-    data: result
+  if(result.success) {
+    return {
+      type: ADD_KELAS_SUCCESS,
+      data: result
+    }
+  } else {
+    return {
+      type: ADD_KELAS_FAILED,
+      data: result
+    }
   }
 }
 export function addKelas (kelas) {
@@ -115,16 +124,24 @@ function updateKelasStart () {
   }
 }
 function updateKelasFinish (result) {
-  return {
-    type: UPDATE_KELAS_SUCCESS,
-    data: result
+  if(result.success) {
+    return {
+      type: UPDATE_KELAS_SUCCESS,
+      data: result
+    }
+  } else {
+    return {
+      type: UPDATE_KELAS_FAILED,
+      data: result
+    }
   }
+
 }
 export function updateKelas (kode, kelas) {
   return (dispatch) => {
     dispatch(updateKelasStart())
-    return fetch(API_URL + 'kelas', {
-      method: 'post',
+    return fetch(API_URL + 'kelas/' + kode, {
+      method: 'put',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

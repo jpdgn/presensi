@@ -11,6 +11,7 @@ export const GET_MK_BY_ID_START = 'GET_MK_BY_ID_START'
 export const GET_MK_BY_ID_SUCCESS = 'GET_MK_BY_ID_SUCCESS'
 export const ADD_MK_START = 'ADD_MK_START'
 export const ADD_MK_SUCCESS = 'ADD_MK_SUCCESS'
+export const ADD_MK_FAILED = 'ADD_MK_FAILED'
 export const UPDATE_MK_START = 'UPDATE_MK_START'
 export const UPDATE_MK_SUCCESS = 'UPDATE_MK_SUCCESS'
 
@@ -89,9 +90,16 @@ function addMkStart () {
   }
 }
 function addMkFinish (result) {
-  return {
-    type: ADD_MK_SUCCESS,
-    data: result
+  if (result.success) {
+    return {
+      type: ADD_MK_SUCCESS,
+      message: result.message
+    }
+  } else {
+    return {
+      type: ADD_MK_FAILED,
+      message: result.message
+    }
   }
 }
 export function addMk (mk) {
@@ -101,7 +109,8 @@ export function addMk (mk) {
       method: 'post',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('auth-key')
       },
       body: JSON.stringify(mk)
     })

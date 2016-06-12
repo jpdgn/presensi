@@ -64,6 +64,11 @@ export class DosenView extends Component {
                       <h4 className='title'>Dosen</h4>
                     </div>
                     <div className='content table-responsive'>
+                    <div className='fixed-table-toolbar'>
+                      <div className='columns columns-right pull-right'>
+                        <Link to='add/dosen' className='btn btn-primary btn-fill'>Tambah Data</Link>
+                      </div>
+                    </div>
                       <div className='fixed-table-container'>
                         <table className='table table-hover'>
                           <thead>

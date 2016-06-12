@@ -11,6 +11,7 @@ export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const CHECK_START = 'CHECK_START'
 export const CHECK_SUCCESS = 'CHECK_SUCCESS'
 export const CHECK_EXPIRED = 'CHECK_EXPIRED'
+export const LOGOUT_FINISH = 'LOGOUT_FINISH'
 
 // ------------------------------------
 // Actions
@@ -56,6 +57,20 @@ export function login (login, redirect) {
     .then(() => {
       if (redirect) redirect()
     })
+  }
+}
+
+function logoutFinish (redirect) {
+  window.localStorage.removeItem('auth-key')
+  return {
+    type: LOGOUT_FINISH,
+    message: 'Anda berhasil keluar'
+  }
+}
+
+export function logout () {
+  return (dispatch) => {
+    dispatch(logoutFinish())
   }
 }
 
@@ -127,6 +142,11 @@ export default function kelasReducers (state = initialState, action) {
       return Object.assign({}, state, {
         isExpire: true,
         message: action.data
+      })
+    case LOGOUT_FINISH:
+      return Object.assign({}, state, {
+        isLogout: true,
+        message: action.message
       })
     default:
       return state

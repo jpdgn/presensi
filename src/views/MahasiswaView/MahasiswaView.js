@@ -5,7 +5,13 @@ import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
 import { reduxForm } from 'redux-form'
 import SA from 'sweetalert-react'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'  // in ECMAScript 6
 import 'sweetalert-react/node_modules/sweetalert/dist/sweetalert.css'
+var DataTable = require('react-data-components').DataTable
+// var DataTable = require('../../components/Datatable/DataTable')
+
+// import * as DataTable from 'react-data-components'
+// var DataTable = DataTable.DataTable
 
 import { getMahasiswaData } from '../../redux/modules/mahasiswa'
 
@@ -99,29 +105,47 @@ export class MahasiswaView extends Component {
   }
   render () {
     const {fields: {nimOnDelete}} = this.props
+    var options = {
+      noDataText: "Data tidak ditemukan",
+      clearSearch: {true},
+      paginationShowsTotal: {true},
+      onDeleteRow: (row) => {
+        console.log(row)
+      },
+      onAddRow: (row) => {
+        console.log(row)
+      }
+    }
     var row = []
+    var columns = [
+      { title: 'NIM', prop: 'nim'  },
+      { title: 'NAMA', prop: 'nama' },
+      { title: 'EMAIL', prop: 'email' },
+      { title: 'KELAS', prop: 'kelas' },
+      { title: 'AKADEMIK', prop: 'akademik' },
+      { title: 'SEMESTER', prop: 'semester' },
+      { title: 'ACTION', prop: 'action' }
+    ]
+    var data = []
     var loadingText = <tr>Sedang memuat data</tr>
     if (this.props.data && this.props.data.data) {
       var listMahasiswa = this.props.data.data
       for (var i = 0; i < listMahasiswa.length; i++) {
-        row.push(
-          <tr key={i}>
-            <td><Link to={'/mahasiswa/' + listMahasiswa[i].nim}>{listMahasiswa[i].nim}</Link></td>
-            <td>{listMahasiswa[i].nama_mhs}</td>
-            <td>{listMahasiswa[i].email}</td>
-            <td>{listMahasiswa[i].kelas}</td>
-            <td>{listMahasiswa[i].akademik}</td>
-            <td>{listMahasiswa[i].semester}</td>
-            <td className='td-actions text-right'>
-              <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
-              <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
-              <button onClick={() => this.setState({ show: true, id: i })} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></button>
-            </td>
-          </tr>
-        )
+        data.push({
+          nim: listMahasiswa[i].nim,
+          nama: listMahasiswa[i].nama_mhs,
+          email: listMahasiswa[i].email,
+          kelas: listMahasiswa[i].kelas,
+          akademik: listMahasiswa[i].akademik,
+          semester: listMahasiswa[i].semester,
+          action: <div>
+            <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
+            <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
+            <a onClick={this.delete} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></a>
+          </div>
+        })
       }
     }
-
     return (
       <div className='wrapper'>
         <Menu />
@@ -142,24 +166,25 @@ export class MahasiswaView extends Component {
                         </div>
                       </div>
                       <div className='fixed-table-container'>
-                        <div className='fixed-table-body'>
-                          <table id='bootstrap-table' className='table table-hover'>
-                            <thead>
-                              <tr>
-                                <th>NIM</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Kelas</th>
-                                <th>Akademik</th>
-                                <th>Semester</th>
-                                <th className='text-right'>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <div className='fixed-table-loading'>Sedang memuat</div>
-                              {row}
-                            </tbody>
-                          </table>
+                        <div className=''>
+                          <BootstrapTable
+                            data={data}
+                            hover={true}
+                            pagination={true}
+                            insertRow={true}
+                            deleteRow={true}
+                            search={true}
+                            searchPlaceholder="Cari"
+                            exportCSV={true}
+                            options={options}>
+                            <TableHeaderColumn isKey={true} dataSort={true} dataField="nim" width="110">NIM</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="nama">Nama</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="email">Email</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="kelas" width="70">Kelas</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="akademik" width="90">Akademik</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="semester" width="90">Semester</TableHeaderColumn>
+                            <TableHeaderColumn dataField="action" width="100">Action</TableHeaderColumn>
+                        </BootstrapTable>
                         </div>
                       </div>
                       <SA

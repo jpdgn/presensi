@@ -8,6 +8,7 @@ import NS from 'react-notification-system'
 import { getKelas } from '../../redux/modules/kelas'
 import { getSemester } from '../../redux/modules/semester'
 import { getAkademik } from '../../redux/modules/akademik'
+import { addMahasiswa } from '../../redux/modules/mahasiswa'
 
 const form = 'addMahasiswaForm'
 const fields = ['nim', 'nama', 'email', 'kelas', 'noHp', 'tanggal', 'bulan',
@@ -31,7 +32,9 @@ export class AddMahasiswaView extends Component {
     message: PropTypes.string,
     kelas: PropTypes.object,
     semester: PropTypes.object,
-    akademik: PropTypes.object
+    akademik: PropTypes.object,
+    resetForm: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
@@ -69,8 +72,8 @@ export class AddMahasiswaView extends Component {
     var bulan = this.props.values.bulan
     var tahun = this.props.values.tahun
     var tanggalLahir = tahun + '-' + bulan + '-' + tanggal
-    var nim = this.props.values.nim
     var mahasiswa = {
+      nim: this.props.values.nim,
       nama_mhs: this.props.values.nama,
       email: this.props.values.email,
       tanggal_lahir: tanggalLahir,
@@ -85,12 +88,12 @@ export class AddMahasiswaView extends Component {
       device_id: this.props.values.deviceId
     }
     console.log(mahasiswa)
-    this.props.dispatch(updateMahasiswa(nim, mahasiswa))
+    this.props.dispatch(addMahasiswa(mahasiswa))
   }
 
   render () {
     const {fields: {nim, nama, email, kelas, noHp, tanggal, bulan, tahun, alamatRumah,
-     alamatTinggal, semester, akademik, kompensasi, deviceId, tahunMasuk}} = this.props
+     alamatTinggal, semester, akademik, kompensasi, deviceId, tahunMasuk}, submitting, resetForm} = this.props
     var kelasData = this.props.kelas
     var semesterData = this.props.semester
     var akademikData = this.props.akademik
@@ -306,7 +309,13 @@ export class AddMahasiswaView extends Component {
                             id='asd'
                             type='submit'
                             className='btn btn-fill btn-info btn-wd'
+                            disabled={submitting}
                             onClick={this.props.handleSubmit(this.tambahData)}>Simpan</button>
+                          <button
+                            type='button'
+                            className='btn btn-fill btn-info btn-wd'
+                            disabled={submitting}
+                            onClick={resetForm}>Reset</button>
                         </div>
                       </div>
                     </div>

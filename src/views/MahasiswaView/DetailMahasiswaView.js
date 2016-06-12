@@ -11,7 +11,7 @@ import { getAkademik } from '../../redux/modules/akademik'
 import { getSemester } from '../../redux/modules/semester'
 
 const form = 'formMahasiswa'
-const fields = ['nimOnDelete']
+const fields = []
 
 const mapStateToProps = (state) => ({
   data: state.mahasiswa.data,
@@ -28,14 +28,6 @@ export class DetailMahasiswaView extends Component {
     dispatch: PropTypes.func,
     isLoading: PropTypes.bool,
     nim: PropTypes.string
-  }
-
-  handleHapusData = (nim) => {
-    let { dispatch } = this.props
-    $('.ui.modal')
-    .modal('show')
-    console.log(nim)
-    dispatch(nimOnDelete(nim))
   }
 
   componentWillMount () {
@@ -55,7 +47,7 @@ export class DetailMahasiswaView extends Component {
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Mahasiswa</h4>
+            <h4 className='title text-center'>Detail Mahasiswa</h4>
               <div className='row'>
                 <div className='col-md-6'>
                   <div className='tab-content'>

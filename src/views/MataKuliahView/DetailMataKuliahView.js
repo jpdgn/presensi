@@ -44,14 +44,14 @@ export class DetailMataKuliahView extends Component {
           <TopMenu />
           <div className='content'>
             <div className='content-fluid'>
-            <h4 className='title text-center'>Detil Mahasiswa</h4>
+            <h4 className='title text-center'>Detail Mata Kuliah</h4>
               <div className='row'>
                 <div className='col-md-6'>
                   <div className='tab-content'>
                     <div className='tab-pane active' id='description-logo'>
                       <div className='card'>
                         <div className='header'>
-                            <h4 className='title'>Detil Kelas</h4>
+                            <h4 className='title'></h4>
                         </div>
                         <div className='content'>
                           <div className='row'>
