@@ -5,6 +5,7 @@ import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
 import SA from 'sweetalert-react'
 import 'sweetalert-react/node_modules/sweetalert/dist/sweetalert.css'
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'
 
 import { getJadwal } from '../../redux/modules/jadwal'
 
@@ -50,6 +51,17 @@ export class JadwalView extends Component {
     dosen: PropTypes.object
   }
 
+  delete = (row, event) => {
+    console.log(row)
+    var conf = confirm("Anda yakin ingin menghapus ?")
+    if(conf) {
+      // this.props.dispatch(deleteMahasiswa(test))
+      console.log('Youre deleted')
+    } else {
+      console.log('you do cancel')
+    }
+  }
+
   componentWillMount () {
     this.props.dispatch(getJadwal())
     this.props.dispatch(getKelas())
@@ -74,6 +86,31 @@ export class JadwalView extends Component {
     this.props.dispatch(filterJadwal(filter))
   }
   render () {
+    var options = {
+      noDataText: "Data tidak ditemukan",
+      clearSearch: true,
+      paginationShowsTotal: true,
+      sizePerPageList: ['5', '10', '25'],
+      sizePerPage: 5,
+      deleteText: 'Hapus',
+      onDeleteRow: (row) => {
+        console.log(row)
+      },
+      onAddRow: (row) => {
+        console.log(row)
+      }
+    }
+    function onRowSelect (row, isSelected) {
+      console.log(row)
+      console.log("selected: " + isSelected)
+    }
+    var selectRowProp = {
+      mode: "radio",
+      clickToSelect: true,
+      bgColor: "rgb(241, 241, 241)",
+      onSelect: onRowSelect
+    }
+
     var filterOption
     var hariData = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
     var kelasData = this.props.kelas
@@ -86,6 +123,7 @@ export class JadwalView extends Component {
     var mataKuliahOption = []
     var dosenOption = []
     var row = []
+    var data = []
     var days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
     if (this.props.data && this.props.data.data && kelasData && ruanganData && mataKuliahData && dosenData) {
       var listJadwal = this.props.data.data
@@ -108,23 +146,38 @@ export class JadwalView extends Component {
         row = <tr className='no-records-found'><td colSpan='9'><span>Tidak ada data</span></td></tr>
       }
       for (var i = 0; i < listJadwal.length; i++) {
-        row.push(
-          <tr>
-            <td><Link to={'jadwal/' + (listJadwal[i].kode)}>{listJadwal[i].kode}</Link></td>
-            <td>{days[listJadwal[i].hari - 1]}</td>
-            <td>{listJadwal[i].kelas}</td>
-            <td>{listJadwal[i].ruangan}</td>
-            <td>{listJadwal[i].mata_kuliah}</td>
-            <td>{listJadwal[i].nama_dosen}</td>
-            <td>{listJadwal[i].jam_mulai}</td>
-            <td>{listJadwal[i].jam_selesai}</td>
-            <td className='td-actions text-right'>
-              <Link to={'/jadwal/' + listJadwal[i].kode + '/view'} className='btn btn-info btn-simple btn-xs'><i className='fa fa-user'></i></Link>
-              <Link to={'/jadwal/' + listJadwal[i].kode + '/edit'} className='btn btn-success btn-simple btn-xs'><i className='fa fa-edit'></i></Link>
-              <button onClick={() => this.setState({ show: true, id: i })} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></button>
-            </td>
-          </tr>
-        )
+        // row.push(
+        //   <tr>
+        //     <td><Link to={'jadwal/' + (listJadwal[i].kode)}>{listJadwal[i].kode}</Link></td>
+        //     <td>{days[listJadwal[i].hari - 1]}</td>
+        //     <td>{listJadwal[i].kelas}</td>
+        //     <td>{listJadwal[i].ruangan}</td>
+        //     <td>{listJadwal[i].mata_kuliah}</td>
+        //     <td>{listJadwal[i].nama_dosen}</td>
+        //     <td>{listJadwal[i].jam_mulai}</td>
+        //     <td>{listJadwal[i].jam_selesai}</td>
+        //     <td className='td-actions text-right'>
+        //       <Link to={'/jadwal/' + listJadwal[i].kode + '/view'} className='btn btn-info btn-simple btn-xs'><i className='fa fa-user'></i></Link>
+        //       <Link to={'/jadwal/' + listJadwal[i].kode + '/edit'} className='btn btn-success btn-simple btn-xs'><i className='fa fa-edit'></i></Link>
+        //       <button onClick={() => this.setState({ show: true, id: i })} className='btn btn-danger btn-simple btn-xs' data-original-title='Delete'><i className='fa fa-times'></i></button>
+        //     </td>
+        //   </tr>
+        // )
+        data.push({
+          kode: listJadwal[i].kode,
+          hari: days[listJadwal[i].hari-1],
+          kelas: listJadwal[i].kelas,
+          ruangan: listJadwal[i].ruangan,
+          mata_kuliah: listJadwal[i].mata_kuliah,
+          nama_dosen: listJadwal[i].nama_dosen,
+          jam_mulai: listJadwal[i].jam_mulai,
+          jam_selesai: listJadwal[i].jam_selesai,
+          action: <div>
+            <Link ref='tooltip' title='text' to={'/jadwal/' + listJadwal[i].kode + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
+            <Link to={'/jadwal/' + listJadwal[i].kode + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
+            <div onClick={this.delete.bind(this, listJadwal[i].kode)} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></div>
+          </div>
+        })
       }
     }
     console.log(this.state.tipeFilter)
@@ -188,24 +241,27 @@ export class JadwalView extends Component {
                       </div>
                     </div>
                       <div className='fixed-table-container'>
-                        <table className='table table-hover'>
-                          <thead>
-                            <tr>
-                              <th>Kode Jadwal</th>
-                              <th>Hari</th>
-                              <th>Kelas</th>
-                              <th>Ruangan</th>
-                              <th>Mata Kuliah</th>
-                              <th>Dosen</th>
-                              <th>Jam Mulai</th>
-                              <th>Jam Selesai</th>
-                              <th className='text-right'>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {row}
-                          </tbody>
-                        </table>
+                        <BootstrapTable
+                          data={data}
+                          hover={true}
+                          bordered={false}
+                          pagination={true}
+                          deleteRow={true}
+                          search={true}
+                          searchPlaceholder="Cari"
+                          exportCSV={true}
+                          selectRow={selectRowProp}
+                          options={options}>
+                            <TableHeaderColumn isKey={true} dataSort={true} dataField="kode" width="100">KODE JADWAL</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="hari" width='60'>HARI</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="kelas" width='75'>KELAS</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="ruangan" width='70'>RUANGAN</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="mata_kuliah">MATA KULIAH</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="nama_dosen">DOSEN</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="jam_mulai" width='80'>JAM MULAI</TableHeaderColumn>
+                            <TableHeaderColumn dataSort={true} dataField="jam_selesai" width='80'>JAM SELESAI</TableHeaderColumn>
+                            <TableHeaderColumn dataField="action" width="100">Action</TableHeaderColumn>
+                        </BootstrapTable>
                       </div>
                     </div>
                     <SA

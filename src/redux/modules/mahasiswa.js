@@ -15,7 +15,9 @@ export const UPDATE_MAHASISWA_FAILED = 'UPDATE_MAHASISWA_FAILED'
 export const ADD_MAHASISWA_START = 'ADD_MAHASISWA_START'
 export const ADD_MAHASISWA_SUCCESS = 'ADD_MAHASISWA_SUCCESS'
 export const ADD_MAHASISWA_FAILED = 'ADD_MAHASISWA_FAILED'
-export const SET_NIM_TO_DELETE = 'SET_NIM_TO_DELETE'
+export const DELETE_START = 'DELETE_START'
+export const DELETE_SUCCESS = 'DELETE_SUCCESS'
+export const DELETE_FAILED = 'DELETE_FAILED'
 
 // ------------------------------------
 // Actions
@@ -175,17 +177,44 @@ export function addMahasiswa (mahasiswa) {
   }
 }
 
-function setNimToDelete (nim) {
+function deleteStart () {
+  console.log('addMahasiswa start')
   return {
-    type: SET_NIM_TO_DELETE,
-    nim: nim
+    type: DELETE_START
   }
 }
-export function nimOnDelete (nim) {
+
+function deleteFinish (result) {
+  console.log(result)
+  if (result.success) {
+    return {
+      type: DELETE_SUCCESS,
+      message: result.message
+    }
+  } else {
+    return {
+      type: DELETE_FAILED,
+      message: result.message
+    }
+  }
+}
+
+export function deleteMahasiswa (nim) {
   return (dispatch) => {
-    dispatch(setNimToDelete(nim))
+    dispatch(deleteStart())
+    return fetch(API_URL + 'mahasiswa/' + nim, {
+      method: 'delete',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('auth-key')
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => dispatch(deleteFinish(json)))
   }
 }
+
 
 // ------------------------------------
 // Reducer
@@ -251,9 +280,17 @@ export default function mahasiswaReducers (state = initialState, action) {
         isLoading: false,
         message: action.message
       })
-    case SET_NIM_TO_DELETE:
+    case DELETE_START:
       return Object.assign({}, state, {
-        nim: action.nim
+        message: 'was deleting'
+      })
+    case DELETE_SUCCESS:
+      return Object.assign({}, state, {
+        message: action.message
+      })
+    case DELETE_FAILED:
+      return Object.assign({}, state, {
+        message: action.message
       })
     default:
       return state

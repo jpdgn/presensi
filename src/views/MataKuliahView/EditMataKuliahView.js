@@ -79,7 +79,8 @@ export class EditMataKuliahView extends Component {
                             <label>BOBOT MATA KULIAH</label>
                             <input
                               {...bobot}
-                              type='text'
+                              type='number'
+                              min='1'
                               className='form-control' />
                           </div>
                         </div>

@@ -123,7 +123,7 @@ export class AddDosenView extends Component {
                         <div className='col-md-12'>
                           <div className='col-md-3'>
                             <div className='form-group'>
-                              <label>Kelas</label>
+                              <label>Jabatan</label>
                               <select
                                 {...jabatan}
                                 className='form-control'>

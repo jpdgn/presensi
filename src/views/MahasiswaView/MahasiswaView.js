@@ -14,9 +14,10 @@ var DataTable = require('react-data-components').DataTable
 // var DataTable = DataTable.DataTable
 
 import { getMahasiswaData } from '../../redux/modules/mahasiswa'
+import { deleteMahasiswa } from '../../redux/modules/mahasiswa'
 
 const form = 'formMahasiswa'
-const fields = ['nimOnDelete']
+const fields = []
 
 const mapStateToProps = (state) => ({
   data: state.mahasiswa.data,
@@ -26,8 +27,7 @@ const mapStateToProps = (state) => ({
 
 export class MahasiswaView extends Component {
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {show: false, id: ''}
   }
 
@@ -46,75 +46,44 @@ export class MahasiswaView extends Component {
     dispatch(nimOnDelete(nim))
   }
 
-  delete () {
-    console.log('haii')
-    swal('Hello')
+  delete = (test, event) => {
+    console.log(test)
+
+    var conf = confirm("Anda yakin ingin menghapus ?")
+    if(conf) {
+      this.props.dispatch(deleteMahasiswa(test))
+      console.log('Youre deleted')
+    } else {
+      console.log('you do cancel')
+    }
   }
 
   componentDidMount () {
     this.props.dispatch(getMahasiswaData())
-    jQuery(React.findDOMNode(this.refs.tooltip)).tooltip();
-    $("#asd").click(function() {
-      $.notify({
-      	// options
-      	icon: 'glyphicon glyphicon-warning-sign',
-      	title: 'Bootstrap notify',
-      	message: 'Turning standard Bootstrap alerts into "notify" like notifications',
-      	url: 'https://github.com/mouse0270/bootstrap-notify',
-      	target: '_blank'
-      },{
-      	// settings
-      	element: 'body',
-      	position: null,
-      	type: "info",
-      	allow_dismiss: true,
-      	newest_on_top: false,
-      	showProgressbar: false,
-      	placement: {
-      		from: "top",
-      		align: "right"
-      	},
-      	offset: 20,
-      	spacing: 10,
-      	z_index: 1031,
-      	delay: 5000,
-      	timer: 1000,
-      	url_target: '_blank',
-      	mouse_over: null,
-      	animate: {
-      		enter: 'animated fadeInDown',
-      		exit: 'animated fadeOutUp'
-      	},
-      	onShow: null,
-      	onShown: null,
-      	onClose: null,
-      	onClosed: null,
-      	icon_type: 'class',
-      	template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-      		'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-      		'<span data-notify="icon"></span> ' +
-      		'<span data-notify="title">{1}</span> ' +
-      		'<span data-notify="message">{2}</span>' +
-      		'<div class="progress" data-notify="progressbar">' +
-      			'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-      		'</div>' +
-      		'<a href="{3}" target="{4}" data-notify="url"></a>' +
-      	'</div>'
-      })
-    })
   }
   render () {
-    const {fields: {nimOnDelete}} = this.props
     var options = {
       noDataText: "Data tidak ditemukan",
-      clearSearch: {true},
-      paginationShowsTotal: {true},
+      clearSearch: true,
+      paginationShowsTotal: true,
+      sizePerPageList: ['5', '10', '25'],
+      sizePerPage: 5,
       onDeleteRow: (row) => {
         console.log(row)
       },
       onAddRow: (row) => {
         console.log(row)
       }
+    }
+    function onRowSelect (row, isSelected) {
+      console.log(row)
+      console.log("selected: " + isSelected)
+    }
+    var selectRowProp = {
+      mode: "radio",
+      clickToSelect: true,
+      bgColor: "rgb(241, 241, 241)",
+      onSelect: onRowSelect
     }
     var row = []
     var columns = [
@@ -141,7 +110,7 @@ export class MahasiswaView extends Component {
           action: <div>
             <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
             <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
-            <a onClick={this.delete} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></a>
+            <div onClick={this.delete.bind(this, listMahasiswa[i].nim)} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></div>
           </div>
         })
       }
@@ -170,12 +139,13 @@ export class MahasiswaView extends Component {
                           <BootstrapTable
                             data={data}
                             hover={true}
+                            bordered={false}
                             pagination={true}
-                            insertRow={true}
                             deleteRow={true}
                             search={true}
                             searchPlaceholder="Cari"
                             exportCSV={true}
+                            selectRow={selectRowProp}
                             options={options}>
                             <TableHeaderColumn isKey={true} dataSort={true} dataField="nim" width="110">NIM</TableHeaderColumn>
                             <TableHeaderColumn dataSort={true} dataField="nama">Nama</TableHeaderColumn>
@@ -187,25 +157,7 @@ export class MahasiswaView extends Component {
                         </BootstrapTable>
                         </div>
                       </div>
-                      <SA
-                        show={this.state.show}
-                        title="Hapus Data"
-                        text="Apakah anda ingin menghapus data ini ?"
-                        showCancelButton
-                        confirmButtonColor='#DD6B55'
-                        confirmButtonText='Ya, Hapus data ini'
-                        cancelButtonText='Batal'
-                        onConfirm={() => {
-                            swal("Deleted!", "Berhasil", "success")
-                            //this.setState({ show: false })
-                          }
-                        }
-                        onCancel={() => {
-                            swal("Batal", "Data batal dihapus", "error")
-                            // this.setState({ show: false })
-                          }
-                        }
-                      />
+
                     </div>
                   </div>
                 </div>

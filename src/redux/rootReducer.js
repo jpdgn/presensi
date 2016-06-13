@@ -26,6 +26,12 @@ export const GET_JURUSAN_BY_ID_SUCCESS = 'GET_JURUSAN_BY_ID_SUCCESS'
 export const GET_JABATAN_BY_ID_SUCCESS = 'GET_JABATAN_BY_ID_SUCCESS'
 export const GET_JADWAL_BY_ID_SUCCESS = 'GET_JADWAL_BY_ID_SUCCESS'
 
+const normalizeUpperCase = (value) => {
+  if (!value) {
+    return value
+  }
+  return value.toUpperCase()
+}
 export default combineReducers({
   counter,
   mahasiswa,
@@ -188,6 +194,15 @@ export default combineReducers({
         default:
           return state
       }
+    }
+  }).normalize({
+    editMataKuliahForm: {
+      kode: value => normalizeUpperCase(value),
+      mata_kuliah: value => normalizeUpperCase(value)
+    },
+    editDosenForm: {
+      nip: value => normalizeUpperCase(value),
+      nama: value => normalizeUpperCase(value)
     }
   })
 })

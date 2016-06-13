@@ -3955,7 +3955,7 @@ legend {
   opacity: 1;
   color: #FFFFFF;
 }
-.sidebar .nav li.active > a {
+.sidebar .nav li > a.active {
   color: #FFFFFF;
   opacity: 1;
   background: rgba(255, 255, 255, 0.23);
