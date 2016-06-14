@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
-import NS from 'react-notification-system'
+import Notification from '../../components/Notification'
 
 import { getMahasiswaDataByNim, updateMahasiswa } from '../../redux/modules/mahasiswa'
 import { getKelas } from '../../redux/modules/kelas'
@@ -27,11 +27,49 @@ const validate = values => {
   if (!values.email) {
     errors.email = 'Harus diisi'
   }
+  if (!values.kelas) {
+    errors.kelas = 'Harus diisi'
+  }
+  if (!values.noHp) {
+    errors.noHp = 'Harus diisi'
+  }
+  if (!values.tanggal) {
+    errors.tanggal = 'Harus diisi'
+  }
+  if (!values.bulan) {
+    errors.bulan = 'Harus diisi'
+  }
+  if (!values.tahun) {
+    errors.tahun = 'Harus diisi'
+  }
+  if (!values.alamatRumah) {
+    errors.alamatRumah = 'Harus diisi'
+  }
+  if (!values.alamatTinggal) {
+    errors.alamatTinggal = 'Harus diisi'
+  }
+  if (!values.semester) {
+    errors.semester = 'Harus diisi'
+  }
+  if (!values.akademik) {
+    errors.akademik = 'Harus diisi'
+  }
+  if (!values.kompensasi) {
+    errors.kompensasi = 'Harus diisi'
+  }
+  if (!values.deviceId) {
+    errors.deviceId = 'Harus diisi'
+  }
+  if (!values.tahunMasuk) {
+    errors.tahunMasuk = 'Harus diisi'
+  }
   return errors
 }
 
 const mapStateToProps = (state) => ({
   data: state.mahasiswa.data,
+  text: state.mahasiswa.text,
+  hide: state.mahasiswa.hide,
   isLoading: state.mahasiswa.isLoading,
   successUpdate: state.mahasiswa.successUpdate,
   onUpdate: state.mahasiswa.onUpdate,
@@ -63,27 +101,10 @@ export class EditMahasiswaView extends Component {
   }
 
   componentDidMount () {
-     this._notificationSystem = this.refs.notificationSystem
   }
 
   componentDidUpdate () {
-    this._notificationSystem = this.refs.notificationSystem
-    let { message, onUpdate, successUpdate } = this.props
-    if(onUpdate) {
-      if(successUpdate) {
-        this._notificationSystem.addNotification({
-          message: this.props.message,
-          level: 'success',
-          position: 'bc'
-        })
-      } else {
-        this._notificationSystem.addNotification({
-          message: this.props.message,
-          level: 'error',
-          position: 'bc'
-        })
-      }
-    }
+
   }
 
   ubahData = () => {
@@ -120,21 +141,23 @@ export class EditMahasiswaView extends Component {
     var kelasData = this.props.kelas
     var semesterData = this.props.semester
     var akademikData = this.props.akademik
-    var tanggalLahirOption = []
-    var tahunLahirOption = []
-    var tahunMasukOption = []
-    var kelasOption = []
-    var semesterOption = []
-    var akademikOption = []
+    var tanggalLahirOption = [<option value='' key=''>Pilih Tanggal</option>]
+    var tahunLahirOption = [<option value='' key=''>Pilih Tahun</option>]
+    var tahunMasukOption = [<option value='' key=''>Pilih Tahun Masuk</option>]
+    var kelasOption = [<option value='' key=''>Pilih Kelas</option>]
+    var semesterOption = [<option value='' key=''>Pilih Semester</option>]
+    var akademikOption = [<option value='' key=''>Pilih Akademik</option>]
+    var today = new Date()
+    var year = today.getFullYear()
     if (kelasData && semesterData && akademikData) {
       console.log(kelasData)
       for (var i = 1; i <= 31; i++) {
         tanggalLahirOption.push(<option value={i < 10 ? '0' + i : i} key={i}>{i < 10 ? '0' + i : i}</option>)
       }
-      for (var j = 1950; j <= 1995; j++) {
+      for (var j = year-30; j <= year-10; j++) {
         tahunLahirOption.push(<option value={j} key={j}>{j}</option>)
       }
-      for (var k = 2011; k <= 2016; k++) {
+      for (var k = 2011; k <= year; k++) {
         tahunMasukOption.push(<option value={k} key={k}>{k}</option>)
       }
       for (var x = 0; x < kelasData.data.length; x++) {
@@ -149,6 +172,7 @@ export class EditMahasiswaView extends Component {
     }
     return (
       <div className='wrapper'>
+      <Notification text={this.props.text} message={this.props.message} hide={this.props.hide}/>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
@@ -168,6 +192,7 @@ export class EditMahasiswaView extends Component {
                               <label>NIM</label>
                               <input
                                 {...nim}
+                                disabled
                                 type='text'
                                 className={'form-control ' + (nim.touched && nim.error ? 'error' : '')} />
                               {nim.touched && nim.error && <label className='error'>{nim.error}</label>}
@@ -200,9 +225,10 @@ export class EditMahasiswaView extends Component {
                               <label>Kelas</label>
                               <select
                                 {...kelas}
-                                className='form-control'>
+                                className={'form-control ' + (kelas.touched && kelas.error ? 'error' : '')}>
                                 {kelasOption}
                               </select>
+                              {kelas.touched && kelas.error && <label className='error'>{kelas.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -210,9 +236,10 @@ export class EditMahasiswaView extends Component {
                               <label>Semester</label>
                               <select
                                 {...semester}
-                                className='form-control'>
+                                className={'form-control ' + (semester.touched && semester.error ? 'error' : '')}>
                                 {semesterOption}
                               </select>
+                              {semester.touched && semester.error && <label className='error'>{semester.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -220,17 +247,21 @@ export class EditMahasiswaView extends Component {
                               <label>Akademik</label>
                               <select
                                 {...akademik}
-                                className='form-control'>
+                                className={'form-control ' + (akademik.touched && akademik.error ? 'error' : '')}>
                                 {akademikOption}
                               </select>
+                              {akademik.touched && akademik.error && <label className='error'>{akademik.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
                             <div className='form-group'>
                               <label>Tahun Masuk</label>
-                              <input
+                              <select
                                 {...tahunMasuk}
-                                className='form-control' />
+                                className={'form-control ' + (tahunMasuk.touched && tahunMasuk.error ? 'error' : '')}>
+                                {tahunMasukOption}
+                              </select>
+                              {tahunMasuk.touched && tahunMasuk.error && <label className='error'>{tahunMasuk.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -241,7 +272,8 @@ export class EditMahasiswaView extends Component {
                               <input
                                 {...noHp}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (noHp.touched && noHp.error ? 'error' : '')} />
+                                {noHp.touched && noHp.error && <label className='error'>{noHp.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -249,9 +281,10 @@ export class EditMahasiswaView extends Component {
                               <label>Tanggal Lahir</label>
                               <select
                                 {...tanggal}
-                                className='form-control'>
+                                className={'form-control ' + (tanggal.touched && tanggal.error ? 'error' : '')}>
                                 {tanggalLahirOption}
                               </select>
+                              {tanggal.touched && tanggal.error && <label className='error'>{tanggal.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -259,8 +292,8 @@ export class EditMahasiswaView extends Component {
                               <label>Bulan Lahir</label>
                               <select
                                 {...bulan}
-                                className='form-control'>
-                                <option value=''>Bulan</option>
+                                className={'form-control ' + (bulan.touched && bulan.error ? 'error' : '')}>
+                                <option value=''>Pilih Bulan</option>
                                 <option value='01'>Januari</option>
                                 <option value='02'>Februari</option>
                                 <option value='03'>Maret</option>
@@ -274,6 +307,7 @@ export class EditMahasiswaView extends Component {
                                 <option value='11'>November</option>
                                 <option value='12'>Desember</option>
                               </select>
+                              {bulan.touched && bulan.error && <label className='error'>{bulan.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -281,9 +315,10 @@ export class EditMahasiswaView extends Component {
                               <label>Tahun Lahir</label>
                               <select
                                 {...tahun}
-                                className='form-control'>
+                                className={'form-control ' + (tahun.touched && tahun.error ? 'error' : '')}>
                                 {tahunLahirOption}
                               </select>
+                              {tahun.touched && tahun.error && <label className='error'>{tahun.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -294,7 +329,8 @@ export class EditMahasiswaView extends Component {
                               <input
                                 {...alamatRumah}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatRumah.touched && alamatRumah.error ? 'error' : '')} />
+                                {alamatRumah.touched && alamatRumah.error && <label className='error'>{alamatRumah.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-6'>
@@ -303,7 +339,8 @@ export class EditMahasiswaView extends Component {
                               <input
                                 {...alamatTinggal}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatTinggal.touched && alamatTinggal.error ? 'error' : '')} />
+                                {alamatTinggal.touched && alamatTinggal.error && <label className='error'>{alamatTinggal.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -314,7 +351,8 @@ export class EditMahasiswaView extends Component {
                               <input
                                 {...deviceId}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (deviceId.touched && deviceId.error ? 'error' : '')} />
+                              {deviceId.touched && deviceId.error && <label className='error'>{deviceId.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-6'>
@@ -323,7 +361,8 @@ export class EditMahasiswaView extends Component {
                               <input
                                 {...kompensasi}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (kompensasi.touched && kompensasi.error ? 'error' : '')} />
+                              {kompensasi.touched && kompensasi.error && <label className='error'>{kompensasi.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -337,7 +376,6 @@ export class EditMahasiswaView extends Component {
                       </div>
                     </div>
                   </div>
-                  <NS ref="notificationSystem" />
                 </div>
               </div>
             </div>

@@ -7,25 +7,19 @@ import { reduxForm } from 'redux-form'
 import SA from 'sweetalert-react'
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table'  // in ECMAScript 6
 import 'sweetalert-react/node_modules/sweetalert/dist/sweetalert.css'
-var DataTable = require('react-data-components').DataTable
-// var DataTable = require('../../components/Datatable/DataTable')
 
-// import * as DataTable from 'react-data-components'
-// var DataTable = DataTable.DataTable
+import { getKompensasi } from '../../redux/modules/kompensasi'
+// import { deleteKompensasi } from '../../redux/modules/kompensasi'
 
-import { getMahasiswaData } from '../../redux/modules/mahasiswa'
-import { deleteMahasiswa } from '../../redux/modules/mahasiswa'
-
-const form = 'formMahasiswa'
+const form = 'formKompensasi'
 const fields = []
 
 const mapStateToProps = (state) => ({
-  data: state.mahasiswa.data,
-  nim: state.mahasiswa.nim,
+  data: state.kompensasi.data,
   isLoading: state.mahasiswa.isLoadingData
 })
 
-export class MahasiswaView extends Component {
+export class KompensasiView extends Component {
   constructor(props) {
     super(props)
     this.state = {show: false, id: ''}
@@ -34,20 +28,11 @@ export class MahasiswaView extends Component {
   static propTypes = {
     data: PropTypes.object,
     dispatch: PropTypes.func,
-    isLoading: PropTypes.bool,
-    nim: PropTypes.string
+    isLoading: PropTypes.bool
   }
 
-  handleHapusData = (nim) => {
-    let { dispatch } = this.props
-    $('.ui.modal')
-    .modal('show')
-    console.log(nim)
-    dispatch(nimOnDelete(nim))
-  }
-
-  delete = (test, event) => {
-    console.log(test)
+  hapusData = (row, event) => {
+    console.log(row)
 
     var conf = confirm("Anda yakin ingin menghapus ?")
     if(conf) {
@@ -59,9 +44,42 @@ export class MahasiswaView extends Component {
   }
 
   componentDidMount () {
-    this.props.dispatch(getMahasiswaData())
+    this.props.dispatch(getKompensasi())
   }
   render () {
+    var row = []
+    var columns = [
+      { title: 'NIM', prop: 'nim'  },
+      { title: 'NAMA', prop: 'nama' },
+      { title: 'KOMPENSASI', prop: 'kompensasi' },
+      { title: 'KELAS', prop: 'kelas' },
+      { title: 'ACTION', prop: 'action' }
+    ]
+
+    var columnDownload = [
+      {title: "NIM", dataKey: "nim"},
+      {title: "NAMA", dataKey: "nama"},
+      {title: "KOMPENSASI", dataKey: "kompensasi"},
+    ]
+    var data = []
+    var loadingText = <tr>Sedang memuat data</tr>
+    if (this.props.data && this.props.data.data) {
+      var listKompensasi = this.props.data.data
+      for (var i = 0; i < listKompensasi.length; i++) {
+        data.push({
+          nim: listKompensasi[i].nim,
+          nama: listKompensasi[i].nama_mhs,
+          kompensasi: listKompensasi[i].kompensasi,
+          kelas: listKompensasi[i].kelas,
+          action: <div>
+            <Link ref='tooltip' title='text' to={'/kompensasi/' + listKompensasi[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
+            <Link to={'/kompensasi/' + listKompensasi[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
+            <div onClick={this.hapusData.bind(this, listKompensasi[i].nim)} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></div>
+          </div>
+        })
+      }
+    }
+
     var options = {
       noDataText: "Data tidak ditemukan",
       clearSearch: true,
@@ -73,6 +91,10 @@ export class MahasiswaView extends Component {
       },
       onAddRow: (row) => {
         console.log(row)
+      },
+      onExportToCSV: () => {
+        var a = {ada: "asd", gada: "gadas"}
+        return [{nama:'ads'},{nama:'ads'},{nama:'ads'}]
       }
     }
     function onRowSelect (row, isSelected) {
@@ -80,47 +102,10 @@ export class MahasiswaView extends Component {
       console.log("selected: " + isSelected)
     }
     var selectRowProp = {
-      mode: "radio",
+      mode: "checkbox",
       clickToSelect: true,
       bgColor: "rgb(241, 241, 241)",
       onSelect: onRowSelect
-    }
-
-    var row = []
-    var columns = [
-      { title: 'NIM', prop: 'nim'  },
-      { title: 'NAMA', prop: 'nama' },
-      { title: 'EMAIL', prop: 'email' },
-      { title: 'KELAS', prop: 'kelas' },
-      { title: 'AKADEMIK', prop: 'akademik' },
-      { title: 'SEMESTER', prop: 'semester' },
-      { title: 'ACTION', prop: 'action' }
-    ]
-
-    var columnDownload = [
-      {title: "NIM", dataKey: "nim"},
-      {title: "NAMA", dataKey: "nama"},
-      {title: "EMAIL", dataKey: "email"},
-    ]
-    var data = []
-    var loadingText = <tr>Sedang memuat data</tr>
-    if (this.props.data && this.props.data.data) {
-      var listMahasiswa = this.props.data.data
-      for (var i = 0; i < listMahasiswa.length; i++) {
-        data.push({
-          nim: listMahasiswa[i].nim,
-          nama: listMahasiswa[i].nama_mhs,
-          email: listMahasiswa[i].email ? listMahasiswa[i].email : <small><i>Tidak ada email</i></small>,
-          kelas: listMahasiswa[i].kelas,
-          akademik: listMahasiswa[i].akademik,
-          semester: listMahasiswa[i].semester,
-          action: <div>
-            <Link ref='tooltip' title='text' to={'/mahasiswa/' + listMahasiswa[i].nim + '/view'} className='btn btn-info btn-simple btn-xs' data-original-title='View'><i className='fa fa-user'></i></Link>
-            <Link to={'/mahasiswa/' + listMahasiswa[i].nim + '/edit'} className='btn btn-success btn-simple btn-xs' data-original-title='Edit'><i className='fa fa-edit'></i></Link>
-            <div onClick={this.delete.bind(this, listMahasiswa[i].nim)} className='btn btn-danger btn-simple btn-xs'><i className='fa fa-times'></i></div>
-          </div>
-        })
-      }
     }
 
     function download () {
@@ -139,7 +124,7 @@ export class MahasiswaView extends Component {
                 <div className='col-md-12'>
                   <div className='card'>
                     <div className='header'>
-                      <h4 className='title'>Mahasiswa</h4>
+                      <h4 className='title'>Kompensasi</h4>
                     </div>
                     <div className='content table-responsive'>
                       <div className='fixed-table-toolbar'>
@@ -160,16 +145,16 @@ export class MahasiswaView extends Component {
                             deleteRow={true}
                             search={true}
                             searchPlaceholder="Cari"
+                            columnFilter={true}
                             exportCSV={true}
+                            csvFileName="data.csv"
                             selectRow={selectRowProp}
                             options={options}>
-                            <TableHeaderColumn isKey={true} dataSort={true} dataField="nim" width="110">NIM</TableHeaderColumn>
-                            <TableHeaderColumn dataSort={true} dataField="nama">Nama</TableHeaderColumn>
-                            <TableHeaderColumn dataSort={true} dataField="email">Email</TableHeaderColumn>
-                            <TableHeaderColumn dataSort={true} dataField="kelas" width="70">Kelas</TableHeaderColumn>
-                            <TableHeaderColumn dataSort={true} dataField="akademik" width="90">Akademik</TableHeaderColumn>
-                            <TableHeaderColumn dataSort={true} dataField="semester" width="90">Semester</TableHeaderColumn>
-                            <TableHeaderColumn dataField="action" width="100">Action</TableHeaderColumn>
+                              <TableHeaderColumn isKey={true} dataSort={true} dataField="nim" width="110">NIM</TableHeaderColumn>
+                              <TableHeaderColumn dataSort={true} dataField="nama">Nama</TableHeaderColumn>
+                              <TableHeaderColumn dataSort={true} dataField="kompensasi">Kompensasi</TableHeaderColumn>
+                              <TableHeaderColumn dataSort={true} dataField="kelas">kelas</TableHeaderColumn>
+                              <TableHeaderColumn dataField="action" width="100">Action</TableHeaderColumn>
                         </BootstrapTable>
                         </div>
                       </div>
@@ -198,4 +183,4 @@ export class MahasiswaView extends Component {
 export default connect(mapStateToProps)(reduxForm({
   form: form,
   fields
-})(MahasiswaView))
+})(KompensasiView))

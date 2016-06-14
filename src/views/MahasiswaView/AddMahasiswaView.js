@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
-import NS from 'react-notification-system'
+import Notification from '../../components/Notification'
 
 import { getKelas } from '../../redux/modules/kelas'
 import { getSemester } from '../../redux/modules/semester'
@@ -14,9 +14,63 @@ const form = 'addMahasiswaForm'
 const fields = ['nim', 'nama', 'email', 'kelas', 'noHp', 'tanggal', 'bulan',
 'tahun', 'alamatRumah', 'alamatTinggal', 'semester', 'akademik', 'kompensasi', 'deviceId', 'tahunMasuk']
 
+const validate = values => {
+  const errors = {}
+  if (!values.nim) {
+    errors.nim = 'Harus diisi'
+  } else if (values.nim.length > 10) {
+    errors.nim = 'NIM anda harus valid 10 digit'
+  }
+  if (!values.nama) {
+    errors.nama = 'Harus diisi'
+  }
+  if (!values.email) {
+    errors.email = 'Harus diisi'
+  }
+  if (!values.kelas) {
+    errors.kelas = 'Harus diisi'
+  }
+  if (!values.noHp) {
+    errors.noHp = 'Harus diisi'
+  }
+  if (!values.tanggal) {
+    errors.tanggal = 'Harus diisi'
+  }
+  if (!values.bulan) {
+    errors.bulan = 'Harus diisi'
+  }
+  if (!values.tahun) {
+    errors.tahun = 'Harus diisi'
+  }
+  if (!values.alamatRumah) {
+    errors.alamatRumah = 'Harus diisi'
+  }
+  if (!values.alamatTinggal) {
+    errors.alamatTinggal = 'Harus diisi'
+  }
+  if (!values.semester) {
+    errors.semester = 'Harus diisi'
+  }
+  if (!values.akademik) {
+    errors.akademik = 'Harus diisi'
+  }
+  if (!values.kompensasi) {
+    errors.kompensasi = 'Harus diisi'
+  }
+  if (!values.deviceId) {
+    errors.deviceId = 'Harus diisi'
+  }
+  if (!values.tahunMasuk) {
+    errors.tahunMasuk = 'Harus diisi'
+  }
+  return errors
+}
+
 const mapStateToProps = (state) => ({
   isLoading: state.mahasiswa.isLoading,
   message: state.mahasiswa.message,
+  text: state.mahasiswa.text,
+  hide: state.mahasiswa.hide,
   kelas: state.kelas.data,
   semester: state.semester.data,
   akademik: state.akademik.data
@@ -125,7 +179,8 @@ export class AddMahasiswaView extends Component {
       }
     }
     return (
-      <div>
+      <div className='wrapper'>
+      <Notification text={this.props.text} message={this.props.message} hide={this.props.hide}/>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
@@ -177,9 +232,10 @@ export class AddMahasiswaView extends Component {
                               <label>Kelas</label>
                               <select
                                 {...kelas}
-                                className='form-control'>
+                                className={'form-control ' + (kelas.touched && kelas.error ? 'error' : '')}>
                                 {kelasOption}
                               </select>
+                              {kelas.touched && kelas.error && <label className='error'>{kelas.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -187,9 +243,10 @@ export class AddMahasiswaView extends Component {
                               <label>Semester</label>
                               <select
                                 {...semester}
-                                className='form-control'>
+                                className={'form-control ' + (semester.touched && semester.error ? 'error' : '')}>
                                 {semesterOption}
                               </select>
+                              {semester.touched && semester.error && <label className='error'>{semester.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -197,17 +254,21 @@ export class AddMahasiswaView extends Component {
                               <label>Akademik</label>
                               <select
                                 {...akademik}
-                                className='form-control'>
+                                className={'form-control ' + (akademik.touched && akademik.error ? 'error' : '')}>
                                 {akademikOption}
                               </select>
+                              {akademik.touched && akademik.error && <label className='error'>{akademik.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
                             <div className='form-group'>
                               <label>Tahun Masuk</label>
-                              <input
+                              <select
                                 {...tahunMasuk}
-                                className='form-control' />
+                                className={'form-control ' + (tahunMasuk.touched && tahunMasuk.error ? 'error' : '')}>
+                                {tahunMasukOption}
+                              </select>
+                              {tahunMasuk.touched && tahunMasuk.error && <label className='error'>{tahunMasuk.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -218,7 +279,8 @@ export class AddMahasiswaView extends Component {
                               <input
                                 {...noHp}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (noHp.touched && noHp.error ? 'error' : '')} />
+                                {noHp.touched && noHp.error && <label className='error'>{noHp.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -226,9 +288,10 @@ export class AddMahasiswaView extends Component {
                               <label>Tanggal Lahir</label>
                               <select
                                 {...tanggal}
-                                className='form-control'>
+                                className={'form-control ' + (tanggal.touched && tanggal.error ? 'error' : '')}>
                                 {tanggalLahirOption}
                               </select>
+                              {tanggal.touched && tanggal.error && <label className='error'>{tanggal.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -236,8 +299,8 @@ export class AddMahasiswaView extends Component {
                               <label>Bulan Lahir</label>
                               <select
                                 {...bulan}
-                                className='form-control'>
-                                <option value=''>Bulan</option>
+                                className={'form-control ' + (bulan.touched && bulan.error ? 'error' : '')}>
+                                <option value=''>Pilih Bulan</option>
                                 <option value='01'>Januari</option>
                                 <option value='02'>Februari</option>
                                 <option value='03'>Maret</option>
@@ -251,6 +314,7 @@ export class AddMahasiswaView extends Component {
                                 <option value='11'>November</option>
                                 <option value='12'>Desember</option>
                               </select>
+                              {bulan.touched && bulan.error && <label className='error'>{bulan.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -258,9 +322,10 @@ export class AddMahasiswaView extends Component {
                               <label>Tahun Lahir</label>
                               <select
                                 {...tahun}
-                                className='form-control'>
+                                className={'form-control ' + (tahun.touched && tahun.error ? 'error' : '')}>
                                 {tahunLahirOption}
                               </select>
+                              {tahun.touched && tahun.error && <label className='error'>{tahun.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -271,7 +336,8 @@ export class AddMahasiswaView extends Component {
                               <input
                                 {...alamatRumah}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatRumah.touched && alamatRumah.error ? 'error' : '')} />
+                                {alamatRumah.touched && alamatRumah.error && <label className='error'>{alamatRumah.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-6'>
@@ -280,7 +346,8 @@ export class AddMahasiswaView extends Component {
                               <input
                                 {...alamatTinggal}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatTinggal.touched && alamatTinggal.error ? 'error' : '')} />
+                                {alamatTinggal.touched && alamatTinggal.error && <label className='error'>{alamatTinggal.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -291,7 +358,8 @@ export class AddMahasiswaView extends Component {
                               <input
                                 {...deviceId}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (deviceId.touched && deviceId.error ? 'error' : '')} />
+                              {deviceId.touched && deviceId.error && <label className='error'>{deviceId.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-6'>
@@ -300,7 +368,8 @@ export class AddMahasiswaView extends Component {
                               <input
                                 {...kompensasi}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (kompensasi.touched && kompensasi.error ? 'error' : '')} />
+                              {kompensasi.touched && kompensasi.error && <label className='error'>{kompensasi.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -309,18 +378,11 @@ export class AddMahasiswaView extends Component {
                             id='asd'
                             type='submit'
                             className='btn btn-fill btn-info btn-wd'
-                            disabled={submitting}
                             onClick={this.props.handleSubmit(this.tambahData)}>Simpan</button>
-                          <button
-                            type='button'
-                            className='btn btn-fill btn-info btn-wd'
-                            disabled={submitting}
-                            onClick={resetForm}>Reset</button>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <NS ref="notificationSystem" />
                 </div>
               </div>
             </div>
@@ -333,5 +395,6 @@ export class AddMahasiswaView extends Component {
 
 export default connect(mapStateToProps)(reduxForm({
   form: form,
-  fields
+  fields,
+  validate
 })(AddMahasiswaView))

@@ -7719,7 +7719,7 @@ star {
     opacity: 1;
     filter: alpha(opacity=100);
     visibility: visible;
-    margin-top: 0px;
+    margin-top: 15px;
   }
   .dropdown-menu.bootstrap-datetimepicker-widget.open {
     opacity: 1;

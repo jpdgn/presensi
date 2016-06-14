@@ -18,7 +18,6 @@ class TopMenu extends React.Component {
   }
 
   componentDidMount () {
-    console.log("hitted")
     $(function() {
       $('.nav-open' ).removeClass()
       var $toggle = $('.navbar-toggle')

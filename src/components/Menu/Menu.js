@@ -6,22 +6,7 @@ class Menu extends React.Component {
     super(props)
     this.state = {collapseMaster: true, collapseProfile: true}
   }
-
-  // collapseMasterData () {
-  //   if (this.state.collapseMaster) {
-  //     this.setState({collapseMaster: false})
-  //   } else {
-  //     this.setState({collapseMaster: true})
-  //   }
-  // }
-  //
-  // collapseProfile () {
-  //   if (this.state.collapseProfile) {
-  //     this.setState({collapseProfile: false})
-  //   } else {
-  //     this.setState({collapseProfile: true})
-  //   }
-  // }
+  
   componentDidMount () {
 
   }

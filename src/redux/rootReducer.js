@@ -14,6 +14,7 @@ import jadwal from './modules/jadwal'
 import semester from './modules/semester'
 import akademik from './modules/akademik'
 import kehadiran from './modules/kehadiran'
+import kompensasi from './modules/kompensasi'
 import login from './modules/login'
 
 export const GET_MAHASISWA_DATA_BY_NIM_SUCCESS = 'GET_MAHASISWA_DATA_BY_NIM_SUCCESS'
@@ -46,6 +47,7 @@ export default combineReducers({
   semester,
   akademik,
   kehadiran,
+  kompensasi,
   login,
   router,
   form: formReducer.plugin({
@@ -201,6 +203,10 @@ export default combineReducers({
       mata_kuliah: value => normalizeUpperCase(value)
     },
     editDosenForm: {
+      nip: value => normalizeUpperCase(value),
+      nama: value => normalizeUpperCase(value)
+    },
+    addDosenForm: {
       nip: value => normalizeUpperCase(value),
       nama: value => normalizeUpperCase(value)
     }

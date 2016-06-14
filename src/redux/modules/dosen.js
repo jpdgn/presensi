@@ -13,7 +13,9 @@ export const ADD_DOSEN_START = 'ADD_DOSEN_START'
 export const ADD_DOSEN_SUCCESS = 'ADD_DOSEN_SUCCESS'
 export const ADD_DOSEN_FAILED = 'ADD_DOSEN_FAILED'
 export const UPDATE_DOSEN_START = 'UPDATE_DOSEN_START'
-export const UPDATE_DOSEN_FINISH = 'UPDATE_DOSEN_FINISH'
+export const UPDATE_DOSEN_SUCCESS = 'UPDATE_DOSEN_SUCCESS'
+export const UPDATE_DOSEN_FAILED = 'UPDATE_DOSEN_FAILED'
+export const HIDE = 'HIDE'
 
 // ------------------------------------
 // Actions
@@ -104,7 +106,7 @@ function addDosenFinish (result) {
   } else {
     return {
       type: ADD_DOSEN_FAILED,
-      message: result.message
+      message: 'GAGAL MEMASUKKAN DATA'
     }
   }
 }
@@ -122,6 +124,7 @@ export function addDosen (dosen) {
     })
     .then((response) => response.json())
     .then((json) => dispatch(addDosenFinish(json)))
+    .then((json) => dispatch(hideNotification()))
   }
 }
 
@@ -135,9 +138,16 @@ function updateDosenStart () {
 }
 function updateDosenFinish (result) {
   console.log(result)
-  return {
-    type: UPDATE_DOSEN_FINISH,
-    data: result
+  if(result.success) {
+    return {
+      type: UPDATE_DOSEN_SUCCESS,
+      message: result.message
+    }
+  } else {
+    return {
+      type: UPDATE_DOSEN_FAILED,
+      message: 'GAGAL MERUBAH DATA'
+    }
   }
 }
 export function updateDosen (nip, dosen) {
@@ -154,6 +164,17 @@ export function updateDosen (nip, dosen) {
     })
     .then((response) => response.json())
     .then((json) => dispatch(updateDosenFinish(json)))
+    .then((json) => dispatch(hideNotification()))
+  }
+}
+
+function hideNotification () {
+  return (dispatch) => {
+      window.setTimeout(() => {
+        dispatch({
+          type: HIDE
+        })
+      }, 3000)
   }
 }
 
@@ -161,6 +182,11 @@ export function updateDosen (nip, dosen) {
 // Reducer
 // ------------------------------------
 let initialState = {
+  isLoading: false,
+  onUpdate: false,
+  successUpdate: false,
+  text: 'growler--hidden',
+  hide: ''
 }
 
 export default function dosenReducers (state = initialState, action) {
@@ -193,22 +219,39 @@ export default function dosenReducers (state = initialState, action) {
     case ADD_DOSEN_SUCCESS:
       return Object.assign({}, state, {
         isLoadingData: false,
-        message: action.message
+        message: action.message,
+        text: 'growler--success',
+        hide: ''
       })
     case ADD_DOSEN_FAILED:
       return Object.assign({}, state, {
         isLoadingData: false,
-        message: action.message
+        message: action.message,
+        text: 'growler--error',
+        hide: ''
       })
     case UPDATE_DOSEN_START:
       return Object.assign({}, state, {
-        isLoadingData: true,
-        data: action.data
+        isLoadingData: true
       })
-    case UPDATE_DOSEN_FINISH:
+    case UPDATE_DOSEN_SUCCESS:
       return Object.assign({}, state, {
         isLoadingData: false,
-        data: action.data
+        message: action.message,
+        text: 'growler--success',
+        hide: ''
+      })
+    case UPDATE_DOSEN_FAILED:
+      return Object.assign({}, state, {
+        isLoadingData: false,
+        message: action.message,
+        text: 'growler--error',
+        hide: ''
+      })
+    case HIDE:
+      return Object.assign({}, state, {
+        hide: ' growler--hiding',
+        message: ''
       })
     default:
       return state

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import Menu from '../../components/Menu/Menu'
 import TopMenu from '../../components/Menu/TopMenu'
-import NS from 'react-notification-system'
+import Notification from '../../components/Notification'
 
 import { getJabatan } from '../../redux/modules/jabatan'
 import { addDosen } from '../../redux/modules/dosen'
@@ -12,9 +12,49 @@ const form = 'addDosenForm'
 const fields = ['nip', 'nama', 'email', 'jabatan', 'noHp', 'tanggal', 'bulan',
 'tahun', 'alamatRumah', 'alamatTinggal', 'deviceId']
 
+const validate = values => {
+  const errors = {}
+  if (!values.nip) {
+    errors.nip = 'Harus diisi'
+  }
+  if (!values.nama) {
+    errors.nama = 'Harus diisi'
+  }
+  if (!values.email) {
+    errors.email = 'Harus diisi'
+  }
+  if (!values.jabatan) {
+    errors.jabatan = 'Harus diisi'
+  }
+  if (!values.noHp) {
+    errors.noHp = 'Harus diisi'
+  }
+  if (!values.tanggal) {
+    errors.tanggal = 'Harus diisi'
+  }
+  if (!values.bulan) {
+    errors.bulan = 'Harus diisi'
+  }
+  if (!values.tahun) {
+    errors.tahun = 'Harus diisi'
+  }
+  if (!values.alamatRumah) {
+    errors.alamatRumah = 'Harus diisi'
+  }
+  if (!values.alamatTinggal) {
+    errors.alamatTinggal = 'Harus diisi'
+  }
+  if (!values.deviceId) {
+    errors.deviceId = 'Harus diisi'
+  }
+  return errors
+}
+
 const mapStateToProps = (state) => ({
   isLoading: state.dosen.isLoading,
   message: state.dosen.message,
+  text: state.dosen.text,
+  hide: state.dosen.hide,
   jabatan: state.jabatan.data
 })
 
@@ -22,7 +62,7 @@ export class AddDosenView extends Component {
   static propTypes = {
     data: PropTypes.object,
     dispatch: PropTypes.func,
-    params: PropTypes.string,
+    params: PropTypes.object,
     isLoading: PropTypes.bool,
     message: PropTypes.string,
     jabatan: PropTypes.object
@@ -48,7 +88,6 @@ export class AddDosenView extends Component {
       id_jabatan: this.props.values.jabatan,
       device_id: this.props.values.deviceId
     }
-    console.log(dosen)
     this.props.dispatch(addDosen(dosen))
   }
   render () {
@@ -70,11 +109,12 @@ export class AddDosenView extends Component {
           tahunMasukOption.push(<option value={k} key={k}>{k}</option>)
         }
         for (var x = 0; x < jabatanData.data.length; x++) {
-          jabatanOption.push(<option value={jabatanData.data[x].kode}>{jabatanData.data[x].jabatan}</option>)
+          jabatanOption.push(<option value={jabatanData.data[x].kode} key={jabatanData.data[x].kode}>{jabatanData.data[x].jabatan}</option>)
         }
       }
     return (
-      <div>
+      <div className='wrapper'>
+      <Notification text={this.props.text} message={this.props.message} hide={this.props.hide}/>
         <Menu />
         <div className='main-panel'>
           <TopMenu />
@@ -126,9 +166,10 @@ export class AddDosenView extends Component {
                               <label>Jabatan</label>
                               <select
                                 {...jabatan}
-                                className='form-control'>
+                                className={'form-control ' + (jabatan.touched && jabatan.error ? 'error' : '')}>
                                 {jabatanOption}
                               </select>
+                              {jabatan.touched && jabatan.error && <label className='error'>{jabatan.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -139,7 +180,8 @@ export class AddDosenView extends Component {
                               <input
                                 {...noHp}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (noHp.touched && noHp.error ? 'error' : '')} />
+                              {noHp.touched && noHp.error && <label className='error'>{noHp.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -147,9 +189,10 @@ export class AddDosenView extends Component {
                               <label>Tanggal Lahir</label>
                               <select
                                 {...tanggal}
-                                className='form-control'>
+                                className={'form-control ' + (tanggal.touched && tanggal.error ? 'error' : '')} >
                                 {tanggalLahirOption}
                               </select>
+                              {tanggal.touched && tanggal.error && <label className='error'>{tanggal.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -157,7 +200,7 @@ export class AddDosenView extends Component {
                               <label>Bulan Lahir</label>
                               <select
                                 {...bulan}
-                                className='form-control'>
+                                className={'form-control ' + (bulan.touched && bulan.error ? 'error' : '')} >
                                 <option value=''>Bulan</option>
                                 <option value='01'>Januari</option>
                                 <option value='02'>Februari</option>
@@ -172,6 +215,7 @@ export class AddDosenView extends Component {
                                 <option value='11'>November</option>
                                 <option value='12'>Desember</option>
                               </select>
+                              {bulan.touched && bulan.error && <label className='error'>{bulan.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-3'>
@@ -179,9 +223,10 @@ export class AddDosenView extends Component {
                               <label>Tahun Lahir</label>
                               <select
                                 {...tahun}
-                                className='form-control'>
+                                className={'form-control ' + (tahun.touched && tahun.error ? 'error' : '')} >
                                 {tahunLahirOption}
                               </select>
+                              {tahun.touched && tahun.error && <label className='error'>{tahun.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -192,7 +237,8 @@ export class AddDosenView extends Component {
                               <input
                                 {...alamatRumah}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatRumah.touched && alamatRumah.error ? 'error' : '')} />
+                              {alamatRumah.touched && alamatRumah.error && <label className='error'>{alamatRumah.error}</label>}
                             </div>
                           </div>
                           <div className='col-md-6'>
@@ -201,7 +247,8 @@ export class AddDosenView extends Component {
                               <input
                                 {...alamatTinggal}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (alamatTinggal.touched && alamatTinggal.error ? 'error' : '')} />
+                              {alamatTinggal.touched && alamatTinggal.error && <label className='error'>{alamatTinggal.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -212,7 +259,8 @@ export class AddDosenView extends Component {
                               <input
                                 {...deviceId}
                                 type='text'
-                                className='form-control' />
+                                className={'form-control ' + (deviceId.touched && deviceId.error ? 'error' : '')} />
+                              {deviceId.touched && deviceId.error && <label className='error'>{deviceId.error}</label>}
                             </div>
                           </div>
                         </div>
@@ -232,7 +280,6 @@ export class AddDosenView extends Component {
                       </div>
                     </div>
                   </div>
-                  <NS ref="notificationSystem" />
                 </div>
               </div>
             </div>
@@ -245,5 +292,6 @@ export class AddDosenView extends Component {
 
 export default connect(mapStateToProps)(reduxForm({
   form: form,
-  fields
+  fields,
+  validate
 })(AddDosenView))

@@ -44,6 +44,7 @@ import AddJadwalView from 'views/JadwalView/AddJadwalView'
 import EditJadwalView from 'views/JadwalView/EditJadwalView'
 import DetailJadwalView from 'views/JadwalView/DetailJadwalView'
 import KehadiranView from 'views/KehadiranView/KehadiranView'
+import KompensasiView from 'views/KompensasiView/KompensasiView'
 import LoginView from 'views/LoginView/LoginView'
 import Logout from 'components/logout'
 
@@ -86,6 +87,7 @@ export default (store) => (
     <Route component={EditJadwalView} onEnter={requireAuth} path='/jadwal/:id/edit' />
     <Route component={DetailJadwalView} onEnter={requireAuth} path='/jadwal/:id/view' />
     <Route component={KehadiranView} onEnter={requireAuth} path='/kehadiran' />
+    <Route component={KompensasiView} onEnter={requireAuth} path='/kompensasi' />
     <Route component={LoginView} path='/login' />
     <Route component={Logout} path='/logout' />
   </Route>

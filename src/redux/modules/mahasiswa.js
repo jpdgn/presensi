@@ -18,6 +18,7 @@ export const ADD_MAHASISWA_FAILED = 'ADD_MAHASISWA_FAILED'
 export const DELETE_START = 'DELETE_START'
 export const DELETE_SUCCESS = 'DELETE_SUCCESS'
 export const DELETE_FAILED = 'DELETE_FAILED'
+export const HIDE = 'HIDE'
 
 // ------------------------------------
 // Actions
@@ -107,12 +108,12 @@ function updateMahasiswaFinish (result) {
   if (result.success) {
     return {
       type: UPDATE_MAHASISWA_SUCCESS,
-      message: result.message
+      message: result.message.toUpperCase()
     }
   } else {
     return {
       type: UPDATE_MAHASISWA_FAILED,
-      message: result.message
+      message: result.message || 'GAGAL MERUBAH DATA'
     }
   }
 }
@@ -131,6 +132,7 @@ export function updateMahasiswa (nim, mahasiswa) {
     })
     .then((response) => response.json())
     .then((json) => dispatch(updateMahasiswaFinish(json)))
+    .then((json) => dispatch(hideNotification()))
   }
 }
 
@@ -150,12 +152,12 @@ function addMahasiswaFinish (result) {
   if (result.success) {
     return {
       type: ADD_MAHASISWA_SUCCESS,
-      message: result.message
+      message: result.message.toUpperCase()
     }
   } else {
     return {
       type: ADD_MAHASISWA_FAILED,
-      message: result.message
+      message: 'NIM SUDAH ADA'
     }
   }
 }
@@ -174,6 +176,7 @@ export function addMahasiswa (mahasiswa) {
     })
     .then((response) => response.json())
     .then((json) => dispatch(addMahasiswaFinish(json)))
+    .then((json) => dispatch(hideNotification()))
   }
 }
 
@@ -215,6 +218,15 @@ export function deleteMahasiswa (nim) {
   }
 }
 
+function hideNotification () {
+  return (dispatch) => {
+      window.setTimeout(() => {
+        dispatch({
+          type: HIDE
+        })
+      }, 3000)
+  }
+}
 
 // ------------------------------------
 // Reducer
@@ -222,7 +234,9 @@ export function deleteMahasiswa (nim) {
 let initialState = {
   isLoading: false,
   onUpdate: false,
-  successUpdate: false
+  successUpdate: false,
+  text: 'growler--hidden',
+  hide: ''
 }
 
 export default function mahasiswaReducers (state = initialState, action) {
@@ -256,14 +270,18 @@ export default function mahasiswaReducers (state = initialState, action) {
         isLoading: false,
         successUpdate: true,
         onUpdate: true,
-        message: action.message
+        message: action.message,
+        text: 'growler--success',
+        hide: ''
       })
     case UPDATE_MAHASISWA_FAILED:
       return Object.assign({}, state, {
         isLoading: false,
         successUpdate: false,
         onUpdate: true,
-        message: action.message
+        message: action.message,
+        text: 'growler--error',
+        hide: ''
       })
     case ADD_MAHASISWA_START:
       return Object.assign({}, state, {
@@ -273,12 +291,16 @@ export default function mahasiswaReducers (state = initialState, action) {
     case ADD_MAHASISWA_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        message: action.message
+        message: action.message,
+        text: 'growler--success',
+        hide: ''
       })
     case ADD_MAHASISWA_FAILED:
       return Object.assign({}, state, {
         isLoading: false,
-        message: action.message
+        message: action.message,
+        text: 'growler--error',
+        hide: ''
       })
     case DELETE_START:
       return Object.assign({}, state, {
@@ -291,6 +313,10 @@ export default function mahasiswaReducers (state = initialState, action) {
     case DELETE_FAILED:
       return Object.assign({}, state, {
         message: action.message
+      })
+    case HIDE:
+      return Object.assign({}, state, {
+        hide: ' growler--hiding'
       })
     default:
       return state

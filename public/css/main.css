@@ -154,6 +154,14 @@ ul.doughnut-legend {
   width: 12px;
 }
 
+.growler{position:fixed;display:block;top:0;left:0;opacity:0;visibility:hidden;width:100%;z-index:999999;color:#fff;font-size:17px;background:#2ea91a;height:55px;margin-top:-55px;line-height:55px;text-align:center;-webkit-transition:opacity .3s,margin-top .3s;transition:opacity .3s,margin-top .3s}
+.growler--success{visibility:visible;opacity:1;margin-top:0;background-color:#5bbd66}
+.growler__icon{margin-right:5px;margin-bottom:-3px}
+.growler--error{visibility:visible;opacity:1;margin-top:0;background:#ff5f5f}
+.growler--hiding{visibility:visible;opacity:0;margin-top:-55px}
+.growler--hidden{visibility:hidden}
+#growler.error .icon{margin-right:5px;margin-bottom:-6px}
+
 /* SMARTPHONE */
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   .ui.mobile.cards {
@@ -217,6 +225,14 @@ ul.doughnut-legend {
     position: relative;
     width: 100%;
   }
+
+  .growler{position:fixed;display:block;top:0;left:0;opacity:0;visibility:hidden;width:100%;z-index:999999;color:#fff;font-size:17px;background:#2ea91a;height:55px;margin-top:-55px;line-height:55px;text-align:center;-webkit-transition:opacity .3s,margin-top .3s;transition:opacity .3s,margin-top .3s}
+  .growler--success{visibility:visible;opacity:1;margin-top:0;background-color:#5bbd66}
+  .growler__icon{margin-right:5px;margin-bottom:-3px}
+  .growler--error{visibility:visible;opacity:1;margin-top:0;background:#ff5f5f}
+  .growler--hiding{visibility:visible;opacity:0;margin-top:-55px}
+  .growler--hidden{visibility:hidden}
+  #growler.error .icon{margin-right:5px;margin-bottom:-6px}
 }
 
 /* TABLET */
