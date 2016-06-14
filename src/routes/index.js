@@ -89,7 +89,7 @@ export default (store) => (
     <Route component={KehadiranView} onEnter={requireAuth} path='/kehadiran' />
     <Route component={KompensasiView} onEnter={requireAuth} path='/kompensasi' />
     <Route component={LoginView} path='/login' />
-    <Route component={Logout} path='/logout' />
+    <Route component={Logout} onEnter={handleLogout} path='/logout' />
   </Route>
 )
 
@@ -100,4 +100,14 @@ function requireAuth (nextState, replace) {
       pathname: '/login',
       state: {nextPathname: nextState.location.pathname}
     })
+}
+
+function handleLogout (nextState, replace) {
+  const token = window.localStorage.removeItem('auth-key')
+  if (!token) {
+    replace({
+      pathname: '/login',
+      state: {nextPathname: nextState.location.pathname}
+    })
+  }
 }

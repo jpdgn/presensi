@@ -12,6 +12,7 @@ export const CHECK_START = 'CHECK_START'
 export const CHECK_SUCCESS = 'CHECK_SUCCESS'
 export const CHECK_EXPIRED = 'CHECK_EXPIRED'
 export const LOGOUT_FINISH = 'LOGOUT_FINISH'
+export const HIDE = 'HIDE'
 
 // ------------------------------------
 // Actions
@@ -36,7 +37,8 @@ function loginFinish (result) {
     }
   } else {
     return {
-      type: LOGIN_FAILED
+      type: LOGIN_FAILED,
+      message: 'Username atau password anda salah'
     }
   }
 
@@ -54,6 +56,7 @@ export function login (login, redirect) {
     })
     .then((response) => response.json())
     .then((json) => dispatch(loginFinish(json)))
+    .then((json) => dispatch(hideNotification()))
     .then(() => {
       if (redirect) redirect()
     })
@@ -110,6 +113,16 @@ export function auth (token) {
     .then((json) => dispatch(authFinish(json)))
   }
 }
+
+function hideNotification () {
+  return (dispatch) => {
+      window.setTimeout(() => {
+        dispatch({
+          type: HIDE
+        })
+      }, 3000)
+  }
+}
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -117,7 +130,7 @@ let initialState = {
   isLoading: false
 }
 
-export default function kelasReducers (state = initialState, action) {
+export default function loginReducers (state = initialState, action) {
   switch (action.type) {
     case LOGIN_START:
       return Object.assign({}, state, {
@@ -127,12 +140,16 @@ export default function kelasReducers (state = initialState, action) {
       return Object.assign({}, state, {
         isLoading: false,
         token: action.data,
-        message: 'Login Berhasil'
+        message: 'Login Berhasil',
+        text: 'growler--success',
+        hide: ''
       })
     case LOGIN_FAILED:
       return Object.assign({}, state, {
         isLoading: false,
-        message: 'Login Gagal'
+        message: action.message,
+        text: 'growler--error',
+        hide: ''
       })
     case CHECK_SUCCESS:
       return Object.assign({}, state, {
@@ -147,6 +164,10 @@ export default function kelasReducers (state = initialState, action) {
       return Object.assign({}, state, {
         isLogout: true,
         message: action.message
+      })
+    case HIDE:
+      return Object.assign({}, state, {
+        hide: ' growler--hiding'
       })
     default:
       return state

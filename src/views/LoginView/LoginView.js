@@ -2,12 +2,17 @@ import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { login, auth } from '../../redux/modules/login'
+import Notification from '../../components/Notification'
 
 const form = 'loginForm'
 const fields = ['username', 'password']
 
 const mapStateToProps = (state) => ({
-  token: window.localStorage.getItem('auth-key')
+  token: window.localStorage.getItem('auth-key'),
+  isLoading: state.login.isLoading,
+  text: state.login.text,
+  message: state.login.message,
+  hide: state.login.hide,
 })
 
 export class LoginView extends Component {
@@ -45,9 +50,15 @@ export class LoginView extends Component {
 
   render () {
     const {fields: {username, password}} = this.props
+    var loading = <div className='Spinner Spinner-default'>
+      <span className='Spinner-dot Spinner-1'></span>
+      <span className='Spinner-dot Spinner-2'></span>
+      <span className='Spinner-dot Spinner-3'></span>
+    </div>
     return (
         <div className='wrapper wrapper-full-page'>
           <div className='full-page login-page' data-color='blue'>
+          <Notification text={this.props.text} message={this.props.message} hide={this.props.hide}/>
             <div className='content'>
               <div className='container'>
                 <div className='row'>
@@ -78,7 +89,9 @@ export class LoginView extends Component {
                             <button
                               type='submit'
                               className='btn btn-fill btn-warning btn-wd'
-                              onClick={this.props.handleSubmit(this.submitLogin)}>Login</button>
+                              onClick={this.props.handleSubmit(this.submitLogin)}>
+                              {this.props.isLoading ? loading : 'Login'}
+                              </button>
                         </div>
                       </div>
                     </form>
