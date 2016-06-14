@@ -69,19 +69,19 @@ export class LoginView extends Component {
                         <div className='content'>
                           <div className='form-group'>
 
-                            <label>Username</label>
+                            <label>Nama Pengguna</label>
                             <input
                               {...username}
                               type='text'
-                              placeholder='Enter username'
+                              placeholder='Masukkan nama pengguna'
                               className='form-control' />
                           </div>
                           <div className='form-group'>
-                            <label>Password</label>
+                            <label>Kata Sandi</label>
                             <input
                               {...password}
                               type='password'
-                              placeholder='Password'
+                              placeholder='Masukkan kata sandi'
                               className='form-control' />
                           </div>
                         </div>
