@@ -87,7 +87,6 @@ function addProdiStart () {
   }
 }
 function addProdiFinish (result) {
-  console.log(result)
   return {
     type: ADD_PRODI_SUCCESS,
     data: result
@@ -118,7 +117,6 @@ function updateProdiStart () {
   }
 }
 function updateProdiFinish (result) {
-  console.log(result)
   return {
     type: UPDATE_PRODI_SUCCESS,
     data: result

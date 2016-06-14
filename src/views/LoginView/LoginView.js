@@ -40,9 +40,10 @@ export class LoginView extends Component {
     }
     if (this.props.location.state && this.props.location.state.nextPathname) {
       nextPath = this.props.location.state.nextPathname
+      if(nextPath === '/logout') {
+        nextPath = '/'
+      }
     }
-    console.log(loginData)
-    console.log(nextPath)
     dispatch(login(loginData, () => {
       this.props.history.pushState({}, nextPath)
     }))

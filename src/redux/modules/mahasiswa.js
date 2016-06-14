@@ -33,9 +33,12 @@ function getMahasiswaDataStart () {
   }
 }
 function getMahasiswaDataFinish (result) {
-  return {
-    type: GET_MAHASISWA_DATA_SUCCESS,
-    data: result
+  if(result.success){
+    return {
+      type: GET_MAHASISWA_DATA_SUCCESS,
+      data: result,
+      rows: result.rows
+    }
   }
 }
 export function getMahasiswaData () {
@@ -63,7 +66,6 @@ function getMahasiswaDataByNimStart () {
   }
 }
 function getMahasiswaDataByNimFinish (result) {
-  console.log(result.data[0])
   var splitTanggalLahir = result.data[0].tanggal_lahir.split('-')
   var tahun = splitTanggalLahir[0]
   var bulan = splitTanggalLahir[1]
@@ -97,14 +99,12 @@ export function getMahasiswaDataByNim (nim) {
 // ------------------------------------
 
 function updateMahasiswaStart () {
-  console.log('update start')
   return {
     type: UPDATE_MAHASISWA_START
   }
 }
 
 function updateMahasiswaFinish (result) {
-  console.log(result)
   if (result.success) {
     return {
       type: UPDATE_MAHASISWA_SUCCESS,
@@ -141,14 +141,12 @@ export function updateMahasiswa (nim, mahasiswa) {
 // ------------------------------------
 
 function addMahasiswaStart () {
-  console.log('addMahasiswa start')
   return {
     type: ADD_MAHASISWA_START
   }
 }
 
 function addMahasiswaFinish (result) {
-  console.log(result)
   if (result.success) {
     return {
       type: ADD_MAHASISWA_SUCCESS,
@@ -181,14 +179,12 @@ export function addMahasiswa (mahasiswa) {
 }
 
 function deleteStart () {
-  console.log('addMahasiswa start')
   return {
     type: DELETE_START
   }
 }
 
 function deleteFinish (result) {
-  console.log(result)
   if (result.success) {
     return {
       type: DELETE_SUCCESS,
@@ -249,7 +245,8 @@ export default function mahasiswaReducers (state = initialState, action) {
     case GET_MAHASISWA_DATA_SUCCESS:
       return Object.assign({}, state, {
         isLoadingData: false,
-        data: action.data
+        data: action.data,
+        rows: action.rows
       })
     case GET_MAHASISWA_DATA_BY_NIM_START:
       return Object.assign({}, state, {

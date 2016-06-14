@@ -52,7 +52,6 @@ export class JadwalView extends Component {
   }
 
   delete = (row, event) => {
-    console.log(row)
     var conf = confirm("Anda yakin ingin menghapus ?")
     if(conf) {
       // this.props.dispatch(deleteMahasiswa(test))
@@ -78,7 +77,6 @@ export class JadwalView extends Component {
   }
 
   changeFilterValue = (e) => {
-    console.log(e.target.value)
     var filter = {
       option: this.state.tipeFilter,
       val: e.target.value
@@ -180,7 +178,6 @@ export class JadwalView extends Component {
         })
       }
     }
-    console.log(this.state.tipeFilter)
     switch (this.state.tipeFilter) {
       case 'hari':
         filterOption = hariOption

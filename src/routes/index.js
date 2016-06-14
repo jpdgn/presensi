@@ -8,6 +8,7 @@ import { Route, IndexRoute } from 'react-router'
 // your current file is.
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
 import HomeView from 'views/HomeView/HomeView'
+import Dashboard from 'views/HomeView/Dashboard'
 import MahasiswaView from 'views/MahasiswaView/MahasiswaView'
 import AddMahasiswaView from 'views/MahasiswaView/AddMahasiswaView'
 import EditMahasiswaView from 'views/MahasiswaView/EditMahasiswaView'
@@ -50,7 +51,7 @@ import Logout from 'components/logout'
 
 export default (store) => (
   <Route path='/' component={CoreLayout}>
-    <IndexRoute component={HomeView} />
+    <IndexRoute onEnter={requireAuth} component={Dashboard} />
     <Route component={MahasiswaView} onEnter={requireAuth} path='/mahasiswa' />
     <Route component={AddMahasiswaView} onEnter={requireAuth} path='/add/mahasiswa' />
     <Route component={EditMahasiswaView} onEnter={requireAuth} path='/mahasiswa/:nim/edit' />

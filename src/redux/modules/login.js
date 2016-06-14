@@ -27,7 +27,6 @@ function loginStart () {
   }
 }
 function loginFinish (result) {
-  console.log(result)
   if (result.success) {
     var token = result.token
     window.localStorage.setItem('auth-key', token)
@@ -86,7 +85,6 @@ function authStart () {
   }
 }
 function authFinish (result) {
-  console.log(result)
   if (result.error) {
     window.localStorage.removeItem('auth-key')
     return {

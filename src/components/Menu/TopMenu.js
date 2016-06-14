@@ -65,26 +65,10 @@ class TopMenu extends React.Component {
           <div className='collapse navbar-collapse'>
             <ul className='nav navbar-nav navbar-right'>
               <li className={'dropdown dropdown-with-icons' + (this.state.openMenu ? ' open' : '')}>
-                <a onClick={this.openMenu.bind(this)} className='dropdown-toggle' data-toggle='dropdown'>
-                  <i className='fa fa-list'></i>
-                  <p className='hidden-md hidden-lg'>
-                    More
-                    <b className='caret'></b>
-                  </p>
-                </a>
-                <ul className='dropdown-menu dropdown-with-icons'>
-                  <li>
-                    <a href='#'>
-                      <i className='pe-7s-lock'></i> Lock Screen
-                    </a>
-                  </li>
-                  <li>
-                    <Link to='/logout' className='text-danger'>
-                      <i className='pe-7s-close-circle'></i>
-                        Log out
-                    </Link>
-                  </li>
-                </ul>
+                <Link to='/logout' className='btn btn-fill btn-warning btn-wd text-danger'>
+                  <i className='pe-7s-close-circle'></i>
+                    Log out
+                </Link>
               </li>
             </ul>
           </div>

@@ -6,7 +6,7 @@ class Menu extends React.Component {
     super(props)
     this.state = {collapseMaster: true, collapseProfile: true}
   }
-  
+
   componentDidMount () {
 
   }
@@ -25,19 +25,21 @@ class Menu extends React.Component {
               </a>
               <div className='collapse' id='collapseExample'>
                 <ul className='nav'>
-                  <li><a href='#'>My Profile</a></li>
-                  <li><a href='#'>Edit Profile</a></li>
-                  <li><a href='#'>Settings</a></li>
+                  <li>
+                    <Link to='/logout' className='text-danger'>
+                        Log out
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
           <ul className='nav'>
               <li>
-                  <a href='../dashboard.html'>
+                  <Link to='/'>
                       <i className='pe-7s-graph'></i>
                       <p>Dashboard</p>
-                  </a>
+                  </Link>
               </li>
               <li>
                   <a data-toggle='collapse' href='#masterDataExamples' aria-expanded={this.state.collapseMaster}>
